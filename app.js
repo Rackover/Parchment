@@ -40,6 +40,10 @@ const argv = yargs
       description: 'Path for the website and contents - should stay default at all times',
       type: 'string',
   })
+  .option('name', {
+      description: 'Name for the wiki',
+      type: 'string',
+  })
   .help()
   .alias('help', 'h')
   .argv;
@@ -52,6 +56,8 @@ global.APPLICATION_ROOT = argv.path || process.cwd();
 global.WIKI_PATH = require("path").join( "wiki");
 
 process.env = require("./app/env.js")(argv);
+global.WIKI_NAME = argv.name || process.env.GIT_REPO_URL.split("/").pop().replace(".git", "").toUpperCase()
+
 global.logger = require("./app/log/logger.js");
 global.git = require("./app/git.js");
 

@@ -1,10 +1,25 @@
+mixin recursive_loop(array, index)
+    each content, element in array
+        if content.children
+            +recursive_loop(content.children, index+1)
+        else 
+            a(class=(content.selected ? "selected" : ""),href=content.url) 
+                .element(style="text-indent:"+index*20+"px;") • #{content.name}
+
+
 doctype html
 html
   head
     title My Site - #{title}
     link(rel="stylesheet", href="style.css")
   body
+    .header 
+      include elements/header.pug
     .mainContainer
-      block content
+      .navigation 
+        h2.sectionTitle Navigation
+        include elements/navigation.pug
+      .content
+        block content
     .footer
       include elements/footer.pug
