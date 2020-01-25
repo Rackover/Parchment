@@ -1,6 +1,5 @@
-html
-  head
-    title= title
-  body
-    h1= message
-    p #{plus}
+extends ../layout/default.pug
+
+block content
+  h1= message
+  p #{plus}

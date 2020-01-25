@@ -24,25 +24,46 @@ const argv = yargs
       description: 'Sets the HTTP port at which the console will be displayed',
       type: 'number',
   })
+  .option('pemfile', {
+      description: 'Path to the permission file for git',
+      type: 'string',
+  })
+  .option('repo', {
+      description: 'URL for the work repository',
+      type: 'string',
+  })
+  .option('branch', {
+      description: 'Branch for the work repository - default is auto',
+      type: 'string',
+  })
   .help()
   .alias('help', 'h')
   .argv;
-  
+
+/////////////////////////////////
+//  
 // Setting up ENV variables and main components
+//
+global.WIKI_PATH = require("path").join(process.cwd(), "wiki");
+
 process.env = require("./app/env.js")(argv);
 global.logger = require("./app/log/logger.js");
+global.git = require("./app/git.js");
+//
+////////////////////////////////////
 
-if (argv._.includes('configure')) {
-  // Todo
-  logger.error("This command is not available yet.");
-  return;
-}
+if (argv._.includes('run')){
 
-else if (argv._.includes('run')){
-  const app = require('./app/index.js');
-  
-  // Starts the web app
-  app(process.env.PORT);
+  global.git().then(()=>{
+    // Starts the web app
+    const app = require('./app/index.js');
+    app(process.env.PORT);
+
+    setTimeout(function(){
+      logger.info("Parchment ready!")
+      try{console.log(require("fs").readFileSync("./res/ready.txt").toString())}catch(e){}
+    }, 1000);
+  });
   
 }
 

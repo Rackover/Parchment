@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.17.1",
+    "git-wrapper2-promise": "^0.2.9",
     "pug": "^2.0.4",
     "winston": "^3.2.1",
     "yargs": "^15.1.0"
