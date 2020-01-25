@@ -36,6 +36,10 @@ const argv = yargs
       description: 'Branch for the work repository - default is auto',
       type: 'string',
   })
+  .option('path', {
+      description: 'Path for the website and contents - should stay default at all times',
+      type: 'string',
+  })
   .help()
   .alias('help', 'h')
   .argv;
@@ -44,11 +48,15 @@ const argv = yargs
 //  
 // Setting up ENV variables and main components
 //
-global.WIKI_PATH = require("path").join(process.cwd(), "wiki");
+global.APPLICATION_ROOT = argv.path || process.cwd();
+global.WIKI_PATH = require("path").join( "wiki");
 
 process.env = require("./app/env.js")(argv);
 global.logger = require("./app/log/logger.js");
 global.git = require("./app/git.js");
+
+logger.debug("Using root path: "+APPLICATION_ROOT)
+
 //
 ////////////////////////////////////
 
@@ -56,7 +64,7 @@ if (argv._.includes('run')){
 
   global.git().then(()=>{
     // Starts the web app
-    const app = require('./app/index.js');
+    const app = require('./app/express.js');
     app(process.env.PORT);
 
     setTimeout(function(){

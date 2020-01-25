@@ -2,5 +2,9 @@ doctype html
 html
   head
     title My Site - #{title}
+    link(rel="stylesheet", href="style.css")
   body
-    block content
+    .mainContainer
+      block content
+    .footer
+      include elements/footer.pug

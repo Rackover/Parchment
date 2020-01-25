@@ -7,11 +7,9 @@ let isOperating = false;
 
 module.exports = async function(){
   
-  logger.debug("Using root path: "+process.cwd())
-  
   const git = require('git-wrapper2-promise')
   
-  const privateKeyPath = require("path").join(process.cwd(), process.env.GIT_PEM_FILE);
+  const privateKeyPath = require("path").join(APPLICATION_ROOT, process.env.GIT_PEM_FILE);
 
   if (!fs.existsSync(privateKeyPath)){
     logger.error("Could NOT read the private key file "+privateKeyPath+"\n"+JSON.stringify(e, null, 4))

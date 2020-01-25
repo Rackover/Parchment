@@ -1,0 +1,28 @@
+/* Font faces */
+@font-face {
+ font-family: "NotoSans";
+ src: url("/res/fonts/NotoSans.ttf");
+}
+@font-face {
+ font-family: "NotoSerif";
+ src: url("/res/fonts/NotoSerif.ttf");
+}
+@font-face {
+ font-family: "Candara";
+ src: url("/res/fonts/Candara.ttf");
+}
+@font-face {
+ font-family: "Docomo";
+ src: url("/res/fonts/Docomo.ttf");
+}
+
+/* Real css */
+html{
+  font-family: NotoSans;
+  background-color:darkest;
+  color:lightest;
+}
+
+.mainContainer{
+  
+}
