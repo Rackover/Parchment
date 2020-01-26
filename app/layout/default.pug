@@ -1,10 +1,9 @@
-mixin recursive_loop(array, index)
+mixin recursive_loop(array, index, current)
     each content, element in array
+        a(class=(element === current ? "selected" : ""),href=content.url) 
+            .element(style="text-indent:"+index*15+"px;") #{(index>0 ? " • ":"") + content.name}
         if content.children
-            +recursive_loop(content.children, index+1)
-        else 
-            a(class=(content.selected ? "selected" : ""),href=content.url) 
-                .element(style="text-indent:"+index*20+"px;") • #{content.name}
+            +recursive_loop(content.children, index+1, current)
 
 
 doctype html
@@ -17,7 +16,6 @@ html
       include elements/header.pug
     .mainContainer
       .navigation 
-        h2.sectionTitle Navigation
         include elements/navigation.pug
       .content
         block content

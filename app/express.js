@@ -17,11 +17,13 @@ module.exports = function(port){
     res.redirect("index")
   })
   for (k in routes){
-    app.get('/'+routes[k], function (req, res) {
-      res.render(routes[k], require('./routes/'+routes[k]+'.js')
+    const route = routes[k]
+    app.get('/'+route, function (req, res) {
+      logger.debug("Acccessing route "+route)
+      res.render(route, require('./routes/'+route+'.js')
         (
           req,
-          getPageInfo()
+          getPageInfo(req)
         )
       )
     })
@@ -48,17 +50,18 @@ module.exports = function(port){
   // Public directory
   app.use(express.static(path.join(APPLICATION_ROOT, 'public')));
   
-  app.listen(port, function () {
-    logger.info('Express listening on port '+port)
-  })
-  
-  return app
+  return new Promise(function(resolve, reject){
+    app.listen(port, function () {
+      logger.info('Express listening on port '+port)
+      resolve()
+    })
+  });
 }
 
-function getPageInfo(){
+function getPageInfo(req){
   return {
     header: getHeaderInfo(),
-    navigation: getNavigationInfo(),
+    navigation: getNavigationInfo(req),
     footer: getFooterInfo()
   }
 }
@@ -76,22 +79,9 @@ function getFooterInfo(){
   }
 }
 
-function getNavigationInfo(){
+function getNavigationInfo(req){
   return {
-    // getArborescence()...
-    page1:{
-      url:"aa", name:"page2", children:
-      {
-        page2:{url:"aa", name:"page2"},
-        page3:{url:"aa", name:"page3"},
-        page4:{
-          url:"aa", name:"Page 4", children:
-          {
-            page5:{url:"aa", name:"Hello", selected: true},
-            page6:{url:"aa", name: "Howdy"}
-          }
-        }
-      }
-    }
+    arborescence: wikiMap.getTree(),
+    current: "page3"
   }
 }

@@ -105,3 +105,6 @@ dist
 
 # Private files
 *git.pem*
+
+# Wiki default path
+wiki/

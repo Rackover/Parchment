@@ -37,48 +37,58 @@ const argv = yargs
       type: 'string',
   })
   .option('path', {
-      description: 'Path for the website and contents - should stay default at all times',
+      description: 'Path for the application - should stay default at all times',
       type: 'string',
   })
   .option('name', {
       description: 'Name for the wiki',
       type: 'string',
   })
+  .option('wikipath', {
+      description: 'Path for the wiki',
+      type: 'string',
+  })
   .help()
   .alias('help', 'h')
   .argv;
-
+  
 /////////////////////////////////
 //  
 // Setting up ENV variables and main components
 //
 global.APPLICATION_ROOT = argv.path || process.cwd();
-global.WIKI_PATH = require("path").join( "wiki");
 
 process.env = require("./app/env.js")(argv);
+global.WIKI_PATH = process.env.WIKI_PATH
 global.WIKI_NAME = argv.name || process.env.GIT_REPO_URL.split("/").pop().replace(".git", "").toUpperCase()
 
 global.logger = require("./app/log/logger.js");
 global.git = require("./app/git.js");
+global.wikiMap = require("./app/map.js");
 
-logger.debug("Using root path: "+APPLICATION_ROOT)
+logger.debug("Using root path: "+APPLICATION_ROOT+" and wiki path: "+WIKI_PATH)
+logger.debug("Parchment currently running as user: "+require('os').userInfo().username)
 
 //
 ////////////////////////////////////
 
 if (argv._.includes('run')){
 
-  global.git().then(()=>{
+  // Setup git
+  git()
+  .then(()=>{
+    // Scan wiki
+    return wikiMap.updateTree()
+  })
+  .then(()=>{
     // Starts the web app
     const app = require('./app/express.js');
-    app(process.env.PORT);
-
-    setTimeout(function(){
-      logger.info("Parchment ready!")
-      try{console.log(require("fs").readFileSync("./res/ready.txt").toString())}catch(e){}
-    }, 1000);
-  });
-  
+    return app(process.env.PORT);
+  })
+  .then(()=>{
+    logger.info("Parchment ready!")
+    try{console.log(require("fs").readFileSync("./res/ready.txt").toString())}catch(e){}
+  });  
 }
 
 else {

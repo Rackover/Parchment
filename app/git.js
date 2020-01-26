@@ -22,7 +22,7 @@ module.exports = async function(){
       process.exit(1)
     }
   })
-    
+
   gitClient = new git({ 'git-dir': WIKI_PATH });
   const isRepo = await gitClient.isRepo().catch(e => {
     logger.error("Could NOT identify "+WIKI_PATH+" as a repository\n"+JSON.stringify(e, null, 4))
@@ -36,7 +36,11 @@ module.exports = async function(){
     });
   }
 
-  await gitClient.exec('config', ['--local', 'user.name', 'Parchment']);
+  await gitClient.exec('config', ['--local', 'user.name', 'Parchment'])
+  .catch(e=>{
+    logger.error("Error during the initial configuration of the git directory\n"+JSON.stringify(e, null, 4))
+    process.exit(1)
+  });
   await gitClient.exec('config', ['--local', 'user.email', 'parchment@louve.systems']);
   await gitClient.exec('config', ['--local', '--bool', 'http.sslVerify', true]);
   await gitClient.exec('config', ['--local', 'core.sshCommand', 'ssh -i "' + privateKeyPath + '" -o StrictHostKeyChecking=no'])
