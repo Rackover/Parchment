@@ -1,16 +1,16 @@
-mixin recursive_loop(array, index, current)
+mixin recursive_loop(array, index, current, prefix)
     each content, element in array
-        a(class=(element === current ? "selected" : ""),href=content.url) 
+        a(class=(element === current ? "selected" : ""),href=prefix+content.url) 
             .element(style="text-indent:"+index*15+"px;") #{(index>0 ? " • ":"") + content.name}
         if content.children
-            +recursive_loop(content.children, index+1, current)
+            +recursive_loop(content.children, index+1, current, prefix)
 
 
 doctype html
 html
   head
     title My Site - #{title}
-    link(rel="stylesheet", href="style.css")
+    link(rel="stylesheet", href="/style.css")
   body
     .header 
       include elements/header.pug

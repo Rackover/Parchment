@@ -65,6 +65,7 @@ global.WIKI_NAME = argv.name || process.env.GIT_REPO_URL.split("/").pop().replac
 global.logger = require("./app/log/logger.js");
 global.git = require("./app/git.js");
 global.wikiMap = require("./app/map.js");
+global.wikiPage = require("./app/page.js");
 
 logger.debug("Using root path: "+APPLICATION_ROOT+" and wiki path: "+WIKI_PATH)
 logger.debug("Parchment currently running as user: "+require('os').userInfo().username)

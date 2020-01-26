@@ -9,25 +9,26 @@ module.exports = function(port){
   app.set('views', './app/views')
   
   const routes = [
-    "index"
+    "read/*"
   ]
   
   // All routes
   app.get('/', function (req, res) {
-    res.redirect("index")
+    res.redirect(routes[0])
   })
   for (k in routes){
     const route = routes[k]
-    app.get('/'+route, function (req, res) {
-      logger.debug("Acccessing route "+route)
-      res.render(route, require('./routes/'+route+'.js')
+    const cleanName = route.replace("/*", "")
+    app.get('/'+route, function (req, res, next) {
+      res.render(cleanName, require('./routes/'+cleanName+'.js')
         (
           req,
           getPageInfo(req)
         )
       )
+      next()
     })
-    logger.debug('Registered route '+routes[k]);
+    logger.debug('Registered route '+route);
   }
 
   // CSS faking route

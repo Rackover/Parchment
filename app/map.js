@@ -5,12 +5,14 @@ const readFile = util.promisify(fs.readFile);
 const path = require("path")
 
 let tree = {}
+let pages = {}
 
 module.exports = {
     updateTree: updateTree,
     getPageSubTitle: getPageSubTitle,
     getPageTitle: getPageTitle,
-    getTree: function(){return tree}
+    getTree: function(){return tree},
+    getPage : function(path){return pages[path]}
 }
 
 async function updateTree(){
@@ -28,12 +30,17 @@ async function scanDirectory(dirPath){
         const fullPathNoExt = path.join(dirPath, cleanName);
         const fullPath = fullPathNoExt+".md";
         const contents = await readFile(fullPath)
-        
+        const virtualPath = fullPath.replace(WIKI_PATH, "");
+
         entries[cleanName] = {
-            url: fullPath,
+            url: virtualPath,
+            filePath: fullPath,
             name: getPageTitle(contents.toString()),
             children: fs.existsSync(fullPathNoExt) ? await scanDirectory(fullPathNoExt) : false
         }
+
+        pages[virtualPath] = entries[cleanName]
+        logger.debug("Added "+cleanName+" to "+virtualPath)
     }
     return entries
 }
