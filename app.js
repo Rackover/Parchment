@@ -48,8 +48,13 @@ const argv = yargs
       description: 'Path for the wiki',
       type: 'string',
   })
+  .usage("Usage: $0 <command> [options]")
+  .example("node app run")
   .help()
   .alias('help', 'h')
+  .wrap(yargs.terminalWidth())
+  .demandCommand()
+  .epilogue("louve.systems@2020")
   .argv;
   
 /////////////////////////////////
