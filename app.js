@@ -1,6 +1,9 @@
 'use strict';
 
 // Parsing app arguments
+require("yargonaut")
+  .helpStyle('green')
+
 const yargs = require('yargs');
 const argv = yargs
   .command('is_configured', 'Checks if the app has been configured correctly', {
@@ -48,7 +51,7 @@ const argv = yargs
       description: 'Path for the wiki',
       type: 'string',
   })
-  .usage("Usage: $0 <command> [options]")
+  .usage("\n==========================\nWelcome to Parchment!\n==========================\n\nUsage: $0 <command> [options]")
   .example("node app run")
   .help()
   .alias('help', 'h')
