@@ -72,6 +72,7 @@ global.WIKI_NAME = argv.name || process.env.GIT_REPO_URL.split("/").pop().replac
 
 global.logger = require("./app/log/logger.js");
 global.git = require("./app/git.js");
+global.markdown = require("./app/markdown.js")
 global.wikiMap = require("./app/map.js");
 global.wikiPage = require("./app/page.js");
 

@@ -99,6 +99,38 @@ body{
 
 .content{
   flex: 9;
+  padding:10px;
+  padding-left:20px;
+}
+
+.content h1{
+  border-bottom: 1px dotted grey;
+}
+
+.content h2{
+  border: 1px solid black;
+  padding:4px;
+}
+
+.content h3{
+  font-weight:normal;
+}
+
+.content code{
+  color: #AA0000;
+  background-color: #ff7777:
+}
+
+.content table td, .content table tr, .content table th{
+  border:1px solid grey;
+  padding:5px;
+  border-spacing:0px;
+  margin:0px;
+}
+
+.content table thead{
+  background-color:dark;
+  color:lightest;
 }
 
 .footer{
@@ -113,3 +145,5 @@ body{
   flex-direction:row;
   justify-content:space-around;
 }
+
+
