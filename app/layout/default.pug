@@ -9,8 +9,9 @@ mixin recursive_loop(array, index, current, prefix)
 doctype html
 html
   head
-    title My Site - #{title}
+    title #{website.name} wiki
     link(rel="stylesheet", href="/style.css")
+    link(rel="icon", type="image/png", href="/res/img/favicon.png")
   body
     .header 
       include elements/header.pug
@@ -18,6 +19,11 @@ html
       .navigation 
         include elements/navigation.pug
       .content
-        block content
+        if (error)
+          div !{error.data}
+        
+        else
+          block content
+      
     .footer
       include elements/footer.pug

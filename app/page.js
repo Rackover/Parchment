@@ -5,5 +5,5 @@ module.exports = {
 }
 
 function getFormattedContents(diskPath){
-    return fs.readFileSync(diskPath).toString()
+    return markdown.parse(fs.readFileSync(diskPath).toString())
 }

@@ -9,8 +9,10 @@
     "express": "^4.17.1",
     "git-wrapper2-promise": "^0.2.9",
     "highlight.js": "^9.18.0",
+    "lodash": "^4.17.15",
     "markdown-it": "^10.0.0",
     "pug": "^2.0.4",
+    "remove-markdown": "^0.3.0",
     "winston": "^3.2.1",
     "yargonaut": "^1.1.4",
     "yargs": "^15.1.0"

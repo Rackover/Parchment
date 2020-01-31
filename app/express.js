@@ -19,21 +19,20 @@ module.exports = function(port){
   for (k in routes){
     const route = routes[k]
     const cleanName = route.replace("/*", "")
-    app.get('/'+route, function (req, res, next) {
-      res.render(cleanName, require('./routes/'+cleanName+'.js')
+    app.get('/'+route, async function (req, res, next) {
+      res.render(cleanName, await require('./routes/'+cleanName+'.js')
         (
           req,
           getPageInfo(req)
         )
       )
-      next()
     })
     logger.debug('Registered route '+route);
   }
 
   // CSS faking route
   app.get('/style.css', function (req, res) {
-    const colors = require("./theme.js")(120)
+    const colors = require("./theme.js")("#AAAADD")
     res.set('Content-Type', 'text/css');
     res.send(
       fs.readFileSync(path.join(APPLICATION_ROOT, "public", "style.css"))
@@ -63,7 +62,10 @@ function getPageInfo(req){
   return {
     header: getHeaderInfo(),
     navigation: getNavigationInfo(req),
-    footer: getFooterInfo()
+    footer: getFooterInfo(),
+    website: {
+      name: WIKI_NAME
+    }
   }
 }
 
@@ -83,6 +85,6 @@ function getFooterInfo(){
 function getNavigationInfo(req){
   return {
     arborescence: wikiMap.getTree(),
-    current: "page3"
+    current: req.path.replace("/read", "")
   }
 }

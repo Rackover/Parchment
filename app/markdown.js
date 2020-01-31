@@ -15,9 +15,10 @@ const mdAttrs = require('markdown-it-attrs')
 const mdContainer = require('markdown-it-container')
 const mdMathjax = require('markdown-it-mathjax')()
 const mathjax = require('mathjax-node')
+*/
+
 const _ = require('lodash')
 const mdRemove = require('remove-markdown')
-*/
 
 // containers correspondances
 const containers = [
@@ -117,7 +118,7 @@ const videoRules = [
  * @return     {Array}             TOC tree
  */
 const parseTree = (content) => {
-    return ""
+  
   content = content.replace(/<!--(.|\t|\n|\r)*?-->/g, '')
   let tokens = md().parse(content, {})
   let tocArray = []
@@ -137,11 +138,11 @@ const parseTree = (content) => {
       let anchor = ''
       if (heading.children && heading.children.length > 0 && heading.children[0].type === 'link_open') {
         content = mdRemove(heading.children[1].content)
-        //anchor = _.kebabCase(content)
+        anchor = _.kebabCase(content)
         anchor = content
       } else {
         content = mdRemove(heading.content)
-        //anchor = _.kebabCase(heading.children.reduce((acc, t) => acc + t.content, ''))
+        anchor = _.kebabCase(heading.children.reduce((acc, t) => acc + t.content, ''))
         anchor = heading.children.reduce((acc, t) => acc + t.content, '')
       }
 
@@ -202,19 +203,21 @@ const parseTree = (content) => {
  * @return     {Promise<String>} Promise
  */
 const parseContent = (content) => {
-  console.log(content)
-  console.log(mkdown.render(content))
-
-  return mkdown.render(content)
-
-
-
   let cr = cheerio.load(mkdown.render(content))
 
   if (cr.root().children().length < 1) {
     return ''
   }
 
+  // Replace internal links to add a /read before them
+  cr("a").each(function(i, ele) {
+    const fragments = ele.attribs.href.split("#");
+    const ref = fragments[0];
+    if (ref[0] === "/" && ref.endsWith(".md")){
+      ele.attribs.href = "/read"+ref+(fragments.length > 1 ? "#"+fragments[1] : "");
+    }
+  });
+    
   // -> Check for empty first element
 
   let firstElm = cr.root().children().first()[0]

@@ -1,14 +1,25 @@
-module.exports = function (req, response){
+module.exports = async function (req, response){
     
-    const pagePath = req.path.replace("/read", "")
+    response.prefix = "/read";
+    const pagePath = req.path.replace(response.prefix, "")
     const page = wikiMap.getPage(pagePath)
+
+    if (!page){
+        response.error = { 
+            data: "404"
+        };
+        return response;
+    }
+
     const diskPath = page.filePath;
     
-    const rawMD = diskPath ? wikiPage.getFormattedContents(diskPath) : 404
-    const parsed = markdown.parseContent(rawMD)
+    const md = diskPath ? await wikiPage.getFormattedContents(diskPath, req.get('host')) : 404
 
-    response.data = parsed
-
+    response.meta = md.meta
+    response.data = md.html
+    response.hierarchy = wikiMap.getHierarchyInfo(pagePath)
+    response.page = page
+    
     return response;
 }
   

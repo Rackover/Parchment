@@ -1,4 +1,12 @@
 extends ../layout/default.pug
 
 block content
+  .pageTitle #{meta.title}
+  .pageAddress
+    each val, index in hierarchy
+      a(href=prefix+val.url, class=(val.url === page.url ? "selected" : "")) #{val.name}
+      if (val.url != page.url)
+        span  🡆 
+
+  //.pageSubTitle #{meta.subtitle}
   div !{data}

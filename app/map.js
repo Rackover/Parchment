@@ -9,10 +9,9 @@ let pages = {}
 
 module.exports = {
     updateTree: updateTree,
-    getPageSubTitle: getPageSubTitle,
-    getPageTitle: getPageTitle,
     getTree: function(){return tree},
-    getPage : function(path){return pages[path]}
+    getPage : function(path){return pages[path]},
+    getHierarchyInfo: getHierarchyInfo
 }
 
 async function updateTree(){
@@ -32,31 +31,31 @@ async function scanDirectory(dirPath){
         const contents = await readFile(fullPath)
         const virtualPath = fullPath.replace(WIKI_PATH, "");
 
-        entries[cleanName] = {
+        entries[virtualPath] = {
             url: virtualPath,
             filePath: fullPath,
-            name: getPageTitle(contents.toString()),
+            cleanName: cleanName,
+            name: markdown.parseMeta(contents.toString()).title,
             children: fs.existsSync(fullPathNoExt) ? await scanDirectory(fullPathNoExt) : false
         }
 
-        pages[virtualPath] = entries[cleanName]
+        pages[virtualPath] = entries[virtualPath]
         logger.debug("Added "+cleanName+" to "+virtualPath)
     }
     return entries
 }
 
-function getPageTitle(contents){
-    const firstLine = contents.split("\n")[0];
-    const title = firstLine.replace("<!-- TITLE:", "").replace("-->", "");
-    return title;
-}
+function getHierarchyInfo(virtualPath){
+    const elements = virtualPath.split("/");
+    let hierarchy = []
+    let builtUpPath = ""
 
-function getPageSubTitle(contents){
-    const firstLine = contents.split("\n")[1];
-    const title = firstLine
-    .replace("<!-- SUBTITLE:", "")
-    .replace("-->", "")
-    .trim();
-    return title;
+    for(k in elements){
+        if (k <= 0) continue;
+        builtUpPath += "/"+elements[k]
+        hierarchy.push(pages[builtUpPath.endsWith(".md") ? builtUpPath : builtUpPath+".md"])
+    }
+    
+    return hierarchy
 }
 
