@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
+const permissions = require("./permissions.js")
+
 module.exports = function(port){
   const express = require('express')
   const app = express()
@@ -72,6 +74,9 @@ function getPageInfo(req){
     website: {
       name: WIKI_NAME,
       links: wikiContents
+    },
+    user: {
+      canWrite: permissions.canWrite(req)
     }
   }
 }
@@ -92,6 +97,6 @@ function getFooterInfo(){
 function getNavigationInfo(req){
   return {
     arborescence: wikiMap.getTree(),
-    current: req.path.replace("/read", "")
+    current: req.path.replace("/read", ""),
   }
 }

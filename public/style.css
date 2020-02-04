@@ -120,6 +120,29 @@ body{
   color:lightest;
   padding:6px;
   margin-bottom:6px;
+  position:relative;
+}
+
+.content .pageTitle .pageToolbar{
+  position:absolute;
+  display:block;
+  bottom:0;
+  margin:5px;
+  PADDING:5px;
+  right:40px;
+  font-size:12pt;
+  text-transform: none;
+}
+.pageToolbar a{
+  color:lightest;
+  text-decoration: none;
+}
+.pageToolbar a:hover{
+  border:1px dotted lightest;
+}
+
+.pageToolbar .pageEditButton{
+  margin-left:20px;
 }
 
 .content .pageSubTitle{
