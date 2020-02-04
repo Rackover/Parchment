@@ -58,11 +58,19 @@ module.exports = async function(){
     process.exit(1)
   });
 
-  logger.info("Git client OK!")
+  logger.info("Git client OK! I will pull every "+
+    process.env.GIT_PULL_INTERVAL+" minute"
+    +(process.env.GIT_PUSH_INTERVAL >0? " and push every "+process.env.GIT_PUSH_INTERVAL+" minute": "") 
+    + "!")
 
   await pull();
 
-  setInterval(async function(){ await pull() }, 1000 * 60)
+  if (process.env.GIT_PULL_INTERVAL > 0) setInterval(async function(){ await pull() }, process.env.GIT_PULL_INTERVAL * 1000 * 60)
+  else{
+    logger.error("Impossible pull interval ("+process.env.GIT_PULL_INTERVAL+"), aborting to avoid damage.");
+    process.exit(1);
+  }
+  if (process.env.GIT_PUSH_INTERVAL > 0) setInterval(async function(){ await checkAndUploadModifications() }, process.env.GIT_PUSH_INTERVAL * 1000 * 60)
   
   return {
     checkAndUploadModifications: checkAndUploadModifications
@@ -85,13 +93,43 @@ async function pull(){
   if (!error) logger.info("Done!")
 }
 
-async function checkAndUploadModifications(){
-  if (isOperating) return;
+async function checkAndUploadModifications(changesName=null){
+  if(isOperating){
+    const wait = 2;
+    logger.debug("Could not check and upload modifications because of another operation, waiting for "+wait+" seconds");
+    setTimeout(async function(){await checkAndUploadModifications(changesName)}, wait * 1000);
+    return;
+  }
   isOperating = true;
+
   // 1. git add -A
   // 2. git commit
   // 3. git pull
   // 4. commit the merge
   // 5. git push origin branch
+
+  logger.info("Checking for modifications...")
+  await gitClient.add("-A")
+  .then(()=>{
+    logger.debug("Committing...")
+    return gitClient.commit(changesName || ("Update at "+new Date().toString()))
+  })
+  .then(() => {
+    logger.debug("Pulling...")
+    return gitClient.pull("origin", process.env.GIT_REPO_BRANCH);
+  })
+  .then(() =>{
+    logger.debug("Merging...")
+    return gitClient.commit("Merge")
+  })
+    .catch((e) =>{
+      logger.debug("There was an error during the merge, but this is probably because there is nothing to merge.")
+    })
+  .then(() => {
+    logger.debug("Pushing...")
+    return gitClient.push("origin", process.env.GIT_REPO_BRANCH)
+  });
+  logger.info("Done!")
+
   isOperating = false;
 }

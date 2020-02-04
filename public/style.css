@@ -33,13 +33,18 @@ body{
 }
 
 .header{
-  padding: 5px;
-  padding-left:20px;
   border-bottom:1px dotted grey;
+  background-size:cover;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  background-position: center;
 }
 
 .header h1{
+  text-indent: 1%;
   font-weight:normal;
+  color: rgb(255, 255, 255); 
+  mix-blend-mode: difference;
 }
 
 .mainContainer{

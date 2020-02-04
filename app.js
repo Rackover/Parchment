@@ -69,12 +69,14 @@ global.APPLICATION_ROOT = argv.path || process.cwd();
 process.env = require("./app/env.js")(argv);
 global.WIKI_PATH = process.env.WIKI_PATH
 global.WIKI_NAME = argv.name || process.env.GIT_REPO_URL.split("/").pop().replace(".git", "").toUpperCase()
+global.WIKI_CONTENTS_DIRECTORY_NAME = "_contents";
 
-global.logger = require("./app/log/logger.js");
-global.git = require("./app/git.js");
+global.logger = require("./app/log/logger.js")
+global.git = require("./app/git.js")
 global.markdown = require("./app/markdown.js")
-global.wikiMap = require("./app/map.js");
-global.wikiPage = require("./app/page.js");
+global.wikiMap = require("./app/map.js")
+global.wikiPage = require("./app/page.js")
+global.wikiContents = require('./app/content.js')
 
 logger.debug("Using root path: "+APPLICATION_ROOT+" and wiki path: "+WIKI_PATH)
 logger.debug("Parchment currently running as user: "+require('os').userInfo().username)

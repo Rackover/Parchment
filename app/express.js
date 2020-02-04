@@ -47,6 +47,11 @@ module.exports = function(port){
     )
   })
 
+  // Wiki contents route
+  app.get('/'+WIKI_CONTENTS_DIRECTORY_NAME+"/*", function(req, res){
+    res.sendFile(path.join(WIKI_PATH, req.path))
+  })
+
   // Public directory
   app.use(express.static(path.join(APPLICATION_ROOT, 'public')));
   
@@ -59,12 +64,14 @@ module.exports = function(port){
 }
 
 function getPageInfo(req){
+  
   return {
     header: getHeaderInfo(),
     navigation: getNavigationInfo(req),
     footer: getFooterInfo(),
     website: {
-      name: WIKI_NAME
+      name: WIKI_NAME,
+      links: wikiContents
     }
   }
 }
