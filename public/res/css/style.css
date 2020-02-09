@@ -250,3 +250,29 @@ blockquote.warning{
 blockquote.danger{
   background-color: #FFAAAA;
 }
+
+.toc {
+  margin-top:10px;
+  background-color:light_grey;
+  border:1px solid light;
+  padding:10px;
+  padding-top:0px;
+  display:inline-block;
+}
+
+.toc .link{
+  margin-left:5px;
+  margin-right:5px;
+  color:darkest;
+  text-decoration:none;
+}
+
+.toc .link:hover{
+  text-decoration:underline;
+}
+
+.toc h2{
+  border:none;
+  margin:none;
+  background:none;
+}

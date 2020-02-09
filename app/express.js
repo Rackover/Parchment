@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 
 const permissions = require("./permissions.js")
+const theme = require("./theme.js")
 
 module.exports = function(port){
   const express = require('express')
@@ -72,21 +73,10 @@ module.exports = function(port){
   }
 
     // CSS faking route
-  const cssPath = '/res/css/style.css';
-  app.get(cssPath, function (req, res) {
-    const colors = require("./theme.js")("#AAAADD")
+  app.get(theme.cssPath, function (req, res) {
+    theme.loadColor("#AAAADD")
     res.set('Content-Type', 'text/css');
-    res.send(
-      fs.readFileSync(path.join(APPLICATION_ROOT, "public", cssPath))
-      .toString()
-      .replace(/darkest_grey/g, colors.darkest_grey.rgb().string())
-      .replace(/light_grey/g, colors.light_grey.rgb().string())
-      .replace(/dark_grey/g, colors.dark_grey.rgb().string())
-      .replace(/darkest/g, colors.darkest.rgb().string())
-      .replace(/lightest/g, colors.lightest.rgb().string())
-      .replace(/dark/g, colors.dark.rgb().string())
-      .replace(/light/g, colors.light.rgb().string())
-    )
+    res.send(theme.generateCSS())
   })
 
   // Wiki contents route

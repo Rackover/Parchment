@@ -1,5 +1,17 @@
 extends ../layout/default.pug
 
+mixin create_toc(tree, depth=0)
+  each anchor, index in tree
+    div
+      span(style="display:inline-block; width:"+depth*15+"px")
+      if (index === tree.length-1)
+        | └&gt;
+      else 
+        | ├&gt;
+      a.link(href="#"+anchor.anchor) #{anchor.content}
+    if (anchor.nodes)
+      +create_toc(anchor.nodes, depth+1)
+
 block content
   .pageTitle #{meta.title}
     .pageToolbar
@@ -14,6 +26,7 @@ block content
         a(href=prefix+val.url, class=(val.url === page.url ? "selected" : "")) #{val.name}
         if (val.url != page.url)
           span  🡆 
-
-  //.pageSubTitle #{meta.subtitle}
+  .toc 
+    h2 Table of contents 
+    +create_toc(tree)
   div !{data}

@@ -16,6 +16,7 @@ module.exports = async function (req, response){
 
     response.meta = md.meta
     response.data = md.html
+    response.tree = md.tree
     response.hierarchy = wikiMap.getHierarchyInfo(pagePath)
     response.page = page
     
