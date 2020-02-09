@@ -1,20 +1,28 @@
-a.saveButton:after{
-    content: "Save";
+a.submitButton:after{
+    content: "Submit and go to...";
     font-family: "Noto sans";
     margin-left: 6px;
 }
 
-a.saveButton{
+a.submitButton{
     width:auto;
     border:1px dotted grey;
     padding-left: 6px;
     padding-right: 6px;
     background:linear-gradient(#00DD44, #006622);
     color:white !important;
-    font-weight:bold;
 }
 
-a.saveButton:hover{
+a.submitButton:hover{
     border:1px solid grey;
     background:linear-gradient(#00FF55, #00AA66);
+}
+
+a.saveButton.saving{
+    background:rgb(100, 100, 100);
+}
+
+.CodeMirror.saving{
+    color:grey !important;
+    background-color:lightgrey !important;
 }

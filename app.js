@@ -72,11 +72,12 @@ global.WIKI_NAME = argv.name || process.env.GIT_REPO_URL.split("/").pop().replac
 global.WIKI_CONTENTS_DIRECTORY_NAME = "_contents";
 
 global.logger = require("./app/log/logger.js")
-global.git = require("./app/git.js")
+const gitStarter = require("./app/git.js") // Will become global.git
 global.markdown = require("./app/markdown.js")
 global.wikiMap = require("./app/map.js")
 global.wikiPage = require("./app/page.js")
 global.wikiContents = require('./app/content.js')
+global.utility = require("./app/utility.js")
 
 logger.debug("Using root path: "+APPLICATION_ROOT+" and wiki path: "+WIKI_PATH)
 logger.debug("Parchment currently running as user: "+require('os').userInfo().username)
@@ -87,8 +88,9 @@ logger.debug("Parchment currently running as user: "+require('os').userInfo().us
 if (argv._.includes('run')){
 
   // Setup git
-  git()
-  .then(()=>{
+  gitStarter().then((git)=>{
+    global.git = git
+
     // Scan wiki
     return wikiMap.updateTree()
   })

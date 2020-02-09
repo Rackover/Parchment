@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const bodyParser = require("body-parser");
 
 const permissions = require("./permissions.js")
 
@@ -7,9 +8,15 @@ module.exports = function(port){
   const express = require('express')
   const app = express()
 
+  ///////
+  // Middlewares
   app.set('view engine', 'pug')
   app.set('views', './app/views')
-  
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+
+  //////
+  // Routing
   const routes = [
     {name:"read/*", isProtected: false},
     {name:"write/*", isProtected: true}
@@ -47,13 +54,21 @@ module.exports = function(port){
   const apiRoutes = [
     {name:"submit", isProtected: true}
   ]
-  for (k in routes){
-    const route = routes[k].name
-    const isProtected = routes[k].isProtected
+  for (k in apiRoutes){
+    const route = apiRoutes[k].name
+    const isProtected = apiRoutes[k].isProtected
     const cleanName = route.replace("/*", "")
-    app.get('/'+route, async function (req, res, next) {
-
-    }
+      app.post('/'+route, async function (req, res, next) {
+        if (isProtected && !permissions.canWrite(req)){
+          res.status(403).send({ auth: false, message: 'This page requires identification.' }); 
+          logger.info("Refused access to POST "+req.path+" to "+req.ip+" because of insufficient permission")
+        }
+        else{
+          const response = await require('./routes/post/'+cleanName+'.js')(req.body);
+          res.status(response.code).json(response);
+      }
+    })
+    logger.debug('Registered '+(isProtected?"protected ":"")+'POST route '+route);
   }
 
     // CSS faking route
