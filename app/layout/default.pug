@@ -10,10 +10,13 @@ doctype html
 html
   head
     title #{website.name}
+    block head
     link(rel="stylesheet", href=website.links.css)
     link(rel="icon", type="image/png", href=website.links.favicon)
   body
     .header(style=(website.links.background ? "background-image:url('"+website.links.background+"')" : "")) 
+      .userBar
+        i #{user.ip}
       include elements/header.pug
     .mainContainer
       .navigation 

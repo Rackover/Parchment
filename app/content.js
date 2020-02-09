@@ -16,7 +16,7 @@ module.exports = function(){
 function updateContents(){
     logger.debug("Updating contents...")
     contents = {
-        "css": "/style.css",
+        "css": "/res/css/style.css",
         "favicon": "/res/img/favicon.png",
         "header": false,
         "background": false

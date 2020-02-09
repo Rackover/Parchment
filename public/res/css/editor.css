@@ -1,0 +1,20 @@
+a.saveButton:after{
+    content: "Save";
+    font-family: "Noto sans";
+    margin-left: 6px;
+}
+
+a.saveButton{
+    width:auto;
+    border:1px dotted grey;
+    padding-left: 6px;
+    padding-right: 6px;
+    background:linear-gradient(#00DD44, #006622);
+    color:white !important;
+    font-weight:bold;
+}
+
+a.saveButton:hover{
+    border:1px solid grey;
+    background:linear-gradient(#00FF55, #00AA66);
+}

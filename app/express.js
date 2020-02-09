@@ -11,33 +11,58 @@ module.exports = function(port){
   app.set('views', './app/views')
   
   const routes = [
-    "read/*"
+    {name:"read/*", isProtected: false},
+    {name:"write/*", isProtected: true}
   ]
   
   // All routes
   app.get('/', function (req, res) {
-    res.redirect(routes[0])
+    res.redirect(routes[0].name)
   })
   for (k in routes){
-    const route = routes[k]
+    const route = routes[k].name
+    const isProtected = routes[k].isProtected
     const cleanName = route.replace("/*", "")
     app.get('/'+route, async function (req, res, next) {
-      res.render(cleanName, await require('./routes/'+cleanName+'.js')
-        (
-          req,
-          getPageInfo(req)
+      
+      // Access denied
+      if (isProtected && !permissions.canWrite(req)){
+        res.status(403).send({ auth: false, message: 'This page requires identification.' }); 
+        logger.info("Refused access to "+req.path+" to "+req.ip+" because of insufficient permission")
+      }
+
+      // OK 200
+      else{
+        res.render(cleanName, await require('./routes/'+cleanName+'.js')
+          (
+            req,
+            getPageInfo(req)
+          )
         )
-      )
+      }
     })
-    logger.debug('Registered route '+route);
+    logger.debug('Registered '+(isProtected?"protected ":"")+'route '+route);
+  }
+  
+  const apiRoutes = [
+    {name:"submit", isProtected: true}
+  ]
+  for (k in routes){
+    const route = routes[k].name
+    const isProtected = routes[k].isProtected
+    const cleanName = route.replace("/*", "")
+    app.get('/'+route, async function (req, res, next) {
+
+    }
   }
 
-  // CSS faking route
-  app.get('/style.css', function (req, res) {
+    // CSS faking route
+  const cssPath = '/res/css/style.css';
+  app.get(cssPath, function (req, res) {
     const colors = require("./theme.js")("#AAAADD")
     res.set('Content-Type', 'text/css');
     res.send(
-      fs.readFileSync(path.join(APPLICATION_ROOT, "public", "style.css"))
+      fs.readFileSync(path.join(APPLICATION_ROOT, "public", cssPath))
       .toString()
       .replace(/darkest_grey/g, colors.darkest_grey.rgb().string())
       .replace(/light_grey/g, colors.light_grey.rgb().string())
@@ -76,7 +101,8 @@ function getPageInfo(req){
       links: wikiContents
     },
     user: {
-      canWrite: permissions.canWrite(req)
+      canWrite: permissions.canWrite(req),
+      ip: req.ip
     }
   }
 }
@@ -97,6 +123,6 @@ function getFooterInfo(){
 function getNavigationInfo(req){
   return {
     arborescence: wikiMap.getTree(),
-    current: req.path.replace("/read", ""),
+    current: req.path.replace(req.path.split("/")[1]+"/", ""),
   }
 }

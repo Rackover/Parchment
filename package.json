@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
     "color": "^3.1.2",
     "express": "^4.17.1",
@@ -11,6 +12,8 @@
     "highlight.js": "^9.18.0",
     "lodash": "^4.17.15",
     "markdown-it": "^10.0.0",
+    "markdown-it-anchor": "^5.2.5",
+    "markdown-it-container": "^2.0.0",
     "pug": "^2.0.4",
     "remove-markdown": "^0.3.0",
     "winston": "^3.2.1",

@@ -3,18 +3,18 @@
 const md = require('markdown-it')
 const hljs = require('highlight.js')
 const cheerio = require('cheerio')
+
+const mdContainer = require('markdown-it-container')
+const mdAnchor = require('markdown-it-anchor')
+
 /*
 const mdEmoji = require('markdown-it-emoji')
 const mdTaskLists = require('markdown-it-task-lists')
 const mdAbbr = require('markdown-it-abbr')
-const mdAnchor = require('markdown-it-anchor')
 const mdFootnote = require('markdown-it-footnote')
 const mdExternalLinks = require('markdown-it-external-links')
-const mdExpandTabs = require('markdown-it-expand-tabs')
 const mdAttrs = require('markdown-it-attrs')
-const mdContainer = require('markdown-it-container')
-const mdMathjax = require('markdown-it-mathjax')()
-const mathjax = require('mathjax-node')
+const mdExpandTabs = require('markdown-it-expand-tabs')
 */
 
 const _ = require('lodash')
@@ -22,9 +22,9 @@ const mdRemove = require('remove-markdown')
 
 // containers correspondances
 const containers = [
-    {name: "info", entry:'<blockquote class="is-info"><span class="title"><i class="nc-icon-outline travel_info"></i>Note</span><br>\n', exit: '</blockquote>\n'},
-    {name: "warning", entry:'<blockquote class="is-warning"><span class="title"><i class="nc-icon-outline ui-2_alert-circle"></i>Warning</span><br>\n', exit: '</blockquote>\n'},
-    {name: "danger", entry:'<blockquote class="is-danger"><span class="title"><i class="nc-icon-outline ui-2_alert-circle-"></i>Danger</font></span><br>\n', exit: '</blockquote>\n'}
+    {name: "info", entry:'<blockquote class="info"><p class="title">ℹ Note</p>', exit: '</blockquote>\n'},
+    {name: "warning", entry:'<blockquote class="warning"><p class="title">⚠️ Warning</p>', exit: '</blockquote>\n'},
+    {name: "danger", entry:'<blockquote class="danger"><p class="title">❗ Danger</p>', exit: '</blockquote>\n'}
 ];
 
 // Load plugins
@@ -45,16 +45,30 @@ var mkdown = md({
     return '<pre><code>' + str + '</code></pre>'
   }
 })
+.use(mdAnchor, {
+  slugify: _.kebabCase,
+  permalink: true,
+  permalinkClass: 'toc-anchor icon-link2',
+  permalinkSymbol: ''
+})
+  
+for (let k in containers){
+  const container = containers[k];
+  mkdown.use(mdContainer, container.name, {  
+      render: function (tokens, idx) {
+          if (tokens[idx].nesting === 1) {
+              return container.entry+"\n"; 
+          } else { 
+              return container.exit+"\n";
+          }
+      }
+  });
+}
+
 /*
   .use(mdEmoji)
   .use(mdTaskLists)
   .use(mdAbbr)
-  .use(mdAnchor, {
-    slugify: _.kebabCase,
-    permalink: true,
-    permalinkClass: 'toc-anchor icon-link2',
-    permalinkSymbol: ''
-  })
   .use(mdFootnote)
   .use(mdExternalLinks, {
     externalClassName: 'external-link',
@@ -64,19 +78,6 @@ var mkdown = md({
     tabWidth: 4
   })
   .use(mdAttrs);
-  
-  for (let k in containers){
-    const container = containers[k];
-    mkdown.use(mdContainer, container.name, {  
-        render: function (tokens, idx) {
-            if (tokens[idx].nesting === 1) {
-                return container.entry+"\n"; 
-            } else { 
-                return container.exit+"\n";
-            }
-        }
-    });
-  }
 */
 
 // Rendering rules

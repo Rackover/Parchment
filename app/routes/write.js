@@ -12,10 +12,9 @@ module.exports = async function (req, response){
 
     const diskPath = page.filePath;
     
-    const md = diskPath ? await wikiPage.getFormattedContents(diskPath) : 404
+    const data = diskPath ? await wikiPage.getContents(diskPath) : 404
 
-    response.meta = md.meta
-    response.data = md.html
+    response.data = data
     response.hierarchy = wikiMap.getHierarchyInfo(pagePath)
     response.page = page
     
