@@ -3,9 +3,11 @@ extends ../layout/default.pug
 mixin create_toc(tree, depth=0)
   each anchor, index in tree
     div
-      span(style="display:inline-block; width:"+depth*15+"px")
+      span(style="display:inline-block; width:"+depth*10+"px")
       if (index === tree.length-1)
         | └&gt;
+      else if (depth===0 && index===0)
+        | ┌&gt;
       else 
         | ├&gt;
       a.link(href="#"+anchor.anchor) #{anchor.content}

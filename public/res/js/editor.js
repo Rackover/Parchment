@@ -29,17 +29,31 @@ const toolbarSubmit = {
     "className": "fa fa-step-forward saveButton submitButton"
 }
 
+const toolbarHeading = {
+    "name":"heading",
+    "action": SimpleMDE.toggleHeadingSmaller,
+    "title": "Heading",
+    "className": "fa fa-heading"
+}
+
+const toolbarImage = {
+    "name":"image",
+    "action": SimpleMDE.drawImage,
+    "title": "Insert Image",
+    "className": "fa fa-image"
+}
+
 const toolbar =  [
     "bold", 
     "italic" ,
-    "heading", 
+    toolbarHeading, 
     "|",  ///////////////
     "table", 
     "ordered-list", 
     "unordered-list",
     "|", ///////////////
     "link",
-    "image",
+    toolbarImage,
     toolbarFile,
     "|", ///////////////
     "preview",
@@ -59,7 +73,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
             element: textZone,
             promptURLs: true,
             autofocus: true,
-            toolbar: toolbar
+            toolbar: toolbar,
+            autoDownloadFontAwesome: false
         }
     );
 

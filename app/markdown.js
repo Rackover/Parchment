@@ -6,16 +6,7 @@ const cheerio = require('cheerio')
 
 const mdContainer = require('markdown-it-container')
 const mdAnchor = require('markdown-it-anchor')
-
-/*
-const mdEmoji = require('markdown-it-emoji')
-const mdTaskLists = require('markdown-it-task-lists')
-const mdAbbr = require('markdown-it-abbr')
-const mdFootnote = require('markdown-it-footnote')
-const mdExternalLinks = require('markdown-it-external-links')
-const mdAttrs = require('markdown-it-attrs')
-const mdExpandTabs = require('markdown-it-expand-tabs')
-*/
+const mdTable = require('markdown-it-multimd-table')
 
 const _ = require('lodash')
 const mdRemove = require('remove-markdown')
@@ -48,8 +39,13 @@ var mkdown = md({
 .use(mdAnchor, {
   slugify: _.kebabCase,
   permalink: true,
-  permalinkClass: 'toc-anchor icon-link2',
+  permalinkClass: 'fa fa-link anchor',
   permalinkSymbol: ''
+})
+.use(mdTable, {
+  multiline:  true,
+  rowspan:    true,
+  headerless: true,
 })
   
 for (let k in containers){
@@ -64,28 +60,6 @@ for (let k in containers){
       }
   });
 }
-
-/*
-  .use(mdEmoji)
-  .use(mdTaskLists)
-  .use(mdAbbr)
-  .use(mdFootnote)
-  .use(mdExternalLinks, {
-    externalClassName: 'external-link',
-    internalClassName: 'internal-link'
-  })
-  .use(mdExpandTabs, {
-    tabWidth: 4
-  })
-  .use(mdAttrs);
-*/
-
-// Rendering rules
-/*
-mkdown.renderer.rules.emoji = function (token, idx) {
-  return '<i class="twa twa-' + _.replace(token[idx].markup, /_/g, '-') + '"></i>'
-}
-*/
 
 // Video rules
 
@@ -140,11 +114,9 @@ const parseTree = (content) => {
       if (heading.children && heading.children.length > 0 && heading.children[0].type === 'link_open') {
         content = mdRemove(heading.children[1].content)
         anchor = _.kebabCase(content)
-        anchor = content
       } else {
         content = mdRemove(heading.content)
         anchor = _.kebabCase(heading.children.reduce((acc, t) => acc + t.content, ''))
-        anchor = heading.children.reduce((acc, t) => acc + t.content, '')
       }
 
       tocArray.push({
@@ -210,7 +182,7 @@ const parseContent = (content) => {
     return ''
   }
 
-  // Replace internal links to add a /read before them
+  // Replace internal links to add a /read before them  
   cr("a").each(function(i, ele) {
     const fragments = ele.attribs.href.split("#");
     const ref = fragments[0];
@@ -220,7 +192,7 @@ const parseContent = (content) => {
   });
     
   // -> Check for empty first element
-
+/*
   let firstElm = cr.root().children().first()[0]
   if (firstElm.type === 'tag' && firstElm.name === 'p') {
     let firstElmChildren = firstElm.children
@@ -230,13 +202,6 @@ const parseContent = (content) => {
       cr(firstElm).addClass('is-gapless')
     }
   }
-
-  // -> Remove links in headers
-
-  cr('h1 > a:not(.toc-anchor), h2 > a:not(.toc-anchor), h3 > a:not(.toc-anchor)').each((i, elm) => {
-    let txtLink = cr(elm).text()
-    cr(elm).replaceWith(txtLink)
-  })
 
   // -> Re-attach blockquote styling classes to their parents
 
@@ -251,28 +216,9 @@ const parseContent = (content) => {
     }
   })
 
-  // -> Enclose content below headers
-
-  cr('h2').each((i, elm) => {
-    let subH2Content = cr(elm).nextUntil('h1, h2')
-    cr(elm).after('<div class="indent-h2"></div>')
-    let subH2Container = cr(elm).next('.indent-h2')
-    _.forEach(subH2Content, (ch) => {
-      cr(subH2Container).append(ch)
-    })
-  })
-
-  cr('h3').each((i, elm) => {
-    let subH3Content = cr(elm).nextUntil('h1, h2, h3')
-    cr(elm).after('<div class="indent-h3"></div>')
-    let subH3Container = cr(elm).next('.indent-h3')
-    _.forEach(subH3Content, (ch) => {
-      cr(subH3Container).append(ch)
-    })
-  })
 
   // Replace video links with embeds
-
+*/
   _.forEach(videoRules, (vrule) => {
     cr(vrule.selector).each((i, elm) => {
       let originLink = cr(elm).attr('href')
@@ -291,12 +237,12 @@ const parseContent = (content) => {
   })
 
   // Apply align-center to parent
-
+/*
   cr('img.align-center').each((i, elm) => {
     cr(elm).parent().addClass('align-center')
     cr(elm).removeClass('align-center')
   })
-
+*/
   return Promise.resolve(cr.html())
 }
 
