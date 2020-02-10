@@ -103,7 +103,7 @@ function getPageInfo(req){
     footer: getFooterInfo(),
     website: {
       name: WIKI_NAME,
-      links: wikiContents
+      links: wikiContents.themeLinks
     },
     user: {
       canWrite: permissions.canWrite(req),

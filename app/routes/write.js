@@ -17,7 +17,8 @@ module.exports = async function (req, response){
     response.data = data
     response.hierarchy = wikiMap.getHierarchyInfo(pagePath)
     response.page = page
-    
+    response.browserEntries = wikiContents.getEntries()
+    response.contentPath = WIKI_CONTENTS_DIRECTORY_NAME
     return response;
 }
   

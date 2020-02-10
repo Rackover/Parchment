@@ -226,6 +226,52 @@ body{
   color:lightest;
 }
 
+.content .fileBrowser{
+  position:fixed;
+  width:70%;
+  height:80%;
+  top:10%;
+  left:15%;
+  z-index:10;
+  background-color:light_grey;
+  border:1px solid light;	box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.4);
+
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.content .fileBrowserBackground{
+  z-index: 10;
+  display:block;
+  position:fixed;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  background:rgba(0,0,0,0.4);
+}
+
+.content .fileBrowser #folderView{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.content .fileBrowser #folderView .entry .preview{
+  width: 64px;
+  height: 64px;
+  margin:8px;
+}
+.content .fileBrowser #folderView .entry .preview img{
+  max-width: 100%;
+  max-height:100%;
+}
+.content .fileBrowser #folderView .entry .name{
+  width:64px;
+}
+
 .footer{
   height:24px;
   text-align:center;
