@@ -9,7 +9,7 @@ block head
   script(src="/res/js/editor.js")
   script(src="/res/js/fileExplorer.js")
   script
-    | $( document ).ready(function(){loadEntries('!{contentPath}', !{JSON.stringify(browserEntries)})})
+    | $( document ).ready(function(){loadEntries('!{contentPath}', !{JSON.stringify(browserEntries)}, true)})
 
 block content
   if (hierarchy.length > 1)

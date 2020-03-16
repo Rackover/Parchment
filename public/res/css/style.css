@@ -259,10 +259,23 @@ body{
   justify-content: flex-start;
 }
 
+.content .fileBrowser #folderView .entry {
+  background-color: rgba(0,0,0,0.1);
+  text-align:center;
+  border-radius: 8px;
+  margin:8px;
+}
+
+.content .fileBrowser #folderView .entry:hover {
+  background-color: light;
+  cursor:pointer;
+}
+
 .content .fileBrowser #folderView .entry .preview{
   width: 64px;
   height: 64px;
   margin:8px;
+  font-size: 58px;
 }
 .content .fileBrowser #folderView .entry .preview img{
   max-width: 100%;
@@ -270,6 +283,18 @@ body{
 }
 .content .fileBrowser #folderView .entry .name{
   width:64px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content .fileBrowser #currentPath{
+  height:20px;
+  background-color:#AAAAAA;
+  color:#555555;
+  border:1px solid grey;
+  margin:5px;
+  padding:2px;
 }
 
 .footer{

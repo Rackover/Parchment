@@ -16,7 +16,7 @@ module.exports = function(){
         get themeLinks(){
             return themeLinks
         },
-        getEntries: function(){return getEntries()}
+        getEntries: getEntries
     }
 }()
 
@@ -49,7 +49,9 @@ function getEntries(directory=""){
     const basePath = path.join(WIKI_PATH, WIKI_CONTENTS_DIRECTORY_NAME, directory);
     if (!fs.existsSync(basePath)) return []
     const dirEnts = fs.readdirSync(basePath, {withFileTypes :true});
-    let entries = []
+    const explodedPath = directory.split("/");
+
+    let entries = [];
     for (i in dirEnts){
         const ent = dirEnts[i]
         let file = {
@@ -62,6 +64,14 @@ function getEntries(directory=""){
             file.children = getEntries(path.join(directory, ent.name))
         }
         entries.push(file)
+    }
+    if (directory != ""){
+        entries.unshift({
+            type: "previous",
+            name: "..",
+            path: path.join(WIKI_CONTENTS_DIRECTORY_NAME, directory),
+            isImage: false
+        })
     }
 
     return entries

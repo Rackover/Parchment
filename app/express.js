@@ -72,7 +72,7 @@ module.exports = function(port){
     logger.debug('Registered '+(isProtected?"protected ":"")+'POST route '+route);
   }
 
-    // CSS faking route
+  // CSS faking route
   app.get(theme.cssPath, function (req, res) {
     theme.loadColor("#AAAADD")
     res.set('Content-Type', 'text/css');
@@ -81,7 +81,13 @@ module.exports = function(port){
 
   // Wiki contents route
   app.get('/'+WIKI_CONTENTS_DIRECTORY_NAME+"/*", function(req, res){
-    res.sendFile(path.join(WIKI_PATH, req.path))
+    if (req.query.dir && permissions.canWrite(req)){
+      //?dir=1
+      res.json(wikiContents.getEntries(req.path))
+    }
+    else{
+      res.sendFile(path.join(WIKI_PATH, req.path))
+    }
   })
 
   // Public directory
