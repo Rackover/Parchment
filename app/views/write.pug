@@ -27,6 +27,8 @@ block content
       #currentPath
       #folderView
       .panel
-        button.uploadFile Upload
+        button.destroy#destroy.disabled Destroy
+        button.uploadFile Upload new file(s)...
         button.close Close
+        input(type="file", style={display:"none"})
 
