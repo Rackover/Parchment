@@ -2,6 +2,7 @@ $( document ).ready(init)
 
 let display;
 let currentPathDisplay;
+let currentPath = "/";
 let baseEntries = []
 let selectedDiv = null;
 
@@ -12,10 +13,30 @@ function init(){
         e.stopPropagation()
         select()
     })
+    $('#uploadFile').click(function(){
+        $("#fileUploadRedirect").val(window.location.href)
+        $("#fileUploadPath").val(currentPath)
+        $('#fileUploadInput').click()
+    });
+
+    $('#fileUploadInput').change(function(){
+        const xhr = new XMLHttpRequest();
+        const form = document.getElementById('fileUploadForm');
+        const formData = new FormData(form);
+
+        xhr.addEventListener("load", function(){
+            console.log(xhr.response);
+        })
+
+        xhr.open('POST', form.action, true);
+        xhr.responseType = "json"
+        xhr.send(formData);
+    })
 }
 
 function loadEntries(path, entries, areBaseEntries = false){
-    currentPathDisplay.text("/"+path)
+    currentPath = "/"+path;
+    currentPathDisplay.text(currentPath)
     display.empty()
     for (k in entries){
         const entry = entries[k]

@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
+const fileUpload = require('express-fileupload');
 
 const permissions = require("./permissions.js")
 const theme = require("./theme.js")
@@ -13,8 +14,12 @@ module.exports = function(port){
   // Middlewares
   app.set('view engine', 'pug')
   app.set('views', './app/views')
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use(fileUpload({
+    safeFileNames: /\\/g,
+    limits: { fileSize: 50 * 1024 * 1024 }
+  }))
+  app.use(bodyParser.urlencoded({ extended: false }))
+  app.use(bodyParser.json())
 
   //////
   // Routing
@@ -53,7 +58,8 @@ module.exports = function(port){
   }
   
   const apiRoutes = [
-    {name:"submit", isProtected: true}
+    {name:"submit", isProtected: true},
+    {name:"upload", isProtected: true}
   ]
   for (k in apiRoutes){
     const route = apiRoutes[k].name
@@ -65,7 +71,7 @@ module.exports = function(port){
           logger.info("Refused access to POST "+req.path+" to "+req.ip+" because of insufficient permission")
         }
         else{
-          const response = await require('./routes/post/'+cleanName+'.js')(req.body);
+          const response = await require('./routes/post/'+cleanName+'.js')(req);
           res.status(response.code).json(response);
       }
     })

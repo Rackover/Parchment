@@ -4,7 +4,7 @@ module.exports = {
 
 const whitelist = [
     "2a01:cb0c:882:1400:30e6:9ecb:e3c:7aeb", // 970 HOME VAL 
-    "2a01:cb0c:882:1400:45f:c339:eccd:46b1" // TWONK HOME VAL
+    "2a01:cb0c:882:1400:2d57:efd9:1197:f65d" // TWONK HOME VAL
 ]
 
 function canWrite(req){

@@ -6,6 +6,7 @@ block head
   link(rel="stylesheet", href="/res/css/editor.css")
   script(src="/res/js/simplemde.min.js")
   script(src="/res/js/jquery.min.js")
+  
   script(src="/res/js/editor.js")
   script(src="/res/js/fileExplorer.js")
   script
@@ -27,8 +28,15 @@ block content
       #currentPath
       #folderView
       .panel
-        button.destroy#destroy.disabled Destroy
-        button.uploadFile Upload new file(s)...
+        button.destroy#destroy.disabled
+          .fas.fa-trash-alt
+        button.uploadFile#uploadFile
+          .fas.fa-plus-square
+          |  Add new file(s)...
         button.close Close
-        input(type="file", style={display:"none"})
+        form#fileUploadForm(method="POST", action="/upload", enctype="multipart/form-data")
+          input#fileUploadInput(type="file", name="file", multiple="multiple", style={display:"none"})
+          input#fileUploadPath(type="text", name="path", style={display:"none"})
+          input#fileUploadRedirect(type="text", name="redirect", style={display:"none"})
+          
 

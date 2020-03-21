@@ -357,14 +357,6 @@ body{
   background: linear-gradient(#DDD, #AAffAA);
 }
 
-.content .fileBrowser .panel .close{
-  background: linear-gradient(#DDD, #FFDDDD);
-}
-
-.content .fileBrowser .panel .close:hover{
-  background: linear-gradient(#DDD, #FFAAAA);
-}
-
 .content .fileBrowser .panel .destroy:not(.disabled){
   color:white;
   background:linear-gradient(#833, #522);
