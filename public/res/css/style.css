@@ -67,7 +67,7 @@ body{
 
 .navigation{
   border-right:1px dotted grey;
-  
+  background-color:darkest_grey;
   height:100%;
   flex: 1;
   width:auto;
@@ -92,16 +92,17 @@ body{
 
 .navigation a{
   text-decoration:none;
-  color:dark;
+  color:light_grey;
 }
 
 .navigation .selected{
   font-weight:bold;
+  color:light;
 }
 
 .navigation .element:hover{
-  text-decoration:underline;
-  border:1px dotted dark;
+  border:1px dotted light;
+  background-color:dark;
 }
 
 .content .pageAddress a:hover{
@@ -110,12 +111,13 @@ body{
 
 .navigation .sectionTitle{
   font-weight:normal;
-  
+  color:light;
   text-align:center;
   margin:0px;
   padding-top:10px;
   padding-bottom:10px;
   margin-bottom:5px;
+  border-bottom:1px solid dark_grey;
 }
 
 .content{
