@@ -23,20 +23,23 @@ block content
     textarea#editor
       | !{data}
 
-  .fileBrowserBackground
+  .fileBrowserBackground.disabled#fileBrowserEnsemble
     .fileBrowser
       #currentPath
       #folderView
       .panel
         button.destroy#destroy.disabled
           .fas.fa-trash-alt
+          |  Destroy
         button.uploadFile#uploadFile
           .fas.fa-plus-square
           |  Add new file(s)...
-        button.close Close
+        button.createFolder#createFolder
+          .far.fa-folder
+          |  Create directory
+        button.close#closeButton Close
         form#fileUploadForm(method="POST", action="/upload", enctype="multipart/form-data")
           input#fileUploadInput(type="file", name="file", multiple="multiple", style={display:"none"})
-          input#fileUploadPath(type="text", name="path", style={display:"none"})
-          input#fileUploadRedirect(type="text", name="redirect", style={display:"none"})
+          input#fileUploadPath(type="hidden", name="path")
           
 

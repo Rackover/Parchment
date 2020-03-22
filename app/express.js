@@ -16,7 +16,8 @@ module.exports = function(port){
   app.set('views', './app/views')
   app.use(fileUpload({
     safeFileNames: /\\/g,
-    limits: { fileSize: 50 * 1024 * 1024 }
+    limits: { fileSize: 50 * 1024 * 1024 },
+    createParentPath: true
   }))
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
@@ -59,7 +60,9 @@ module.exports = function(port){
   
   const apiRoutes = [
     {name:"submit", isProtected: true},
-    {name:"upload", isProtected: true}
+    {name:"upload", isProtected: true},
+    {name:"destroy", isProtected: true},
+    {name:"makedirectory", isProtected: true}
   ]
   for (k in apiRoutes){
     const route = apiRoutes[k].name

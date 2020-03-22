@@ -5,7 +5,8 @@ const submissionURL = "/submit"
 const toolbarFile = {
     "name": "file",
     "action": function(editor){
-        
+        // Shows file browser
+        show(function(txt){editor.codemirror.replaceSelection(txt)})
     },
     "title": "Insert file...",
     "className": "fa fa-file"

@@ -253,6 +253,10 @@ body{
   background:rgba(0,0,0,0.4);
 }
 
+.content .fileBrowserBackground.disabled{
+  display:none;
+}
+
 .content .fileBrowser #folderView{
   display:flex;
   flex-direction: row;
@@ -271,6 +275,12 @@ body{
   display:flex;
   justify-content:flex-start;
   flex-direction:column;
+  animation: fadein 1s;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .content .fileBrowser #folderView .entry.selected{
@@ -355,6 +365,35 @@ body{
 }
 .content .fileBrowser .panel .uploadFile:hover{
   background: linear-gradient(#DDD, #AAffAA);
+}
+
+.content .fileBrowser .panel #closeButton{
+  font-weight:bold;
+  flex: 2;
+}
+
+.content .fileBrowser .panel #closeButton.insertMode{
+  color:white;
+  background: linear-gradient(#383, #252);
+}
+
+.content .fileBrowser .panel #closeButton.insertMode:hover{
+  background: linear-gradient(#5A5, #383);
+}
+
+.content .fileBrowser .panel #closeButton.closeMode{
+  background: linear-gradient(#DDD, #FFDDDD);
+}
+
+.content .fileBrowser .panel #closeButton.closeMode:hover{
+  background: linear-gradient(#DDD, #FEE);
+}
+
+.content .fileBrowser .panel .createFolder{
+  background: linear-gradient(#DDD, #FFFFDD);
+}
+.content .fileBrowser .panel .createFolder:hover{
+  background: linear-gradient(#DDD, #FFFFAA);
 }
 
 .content .fileBrowser .panel .destroy:not(.disabled){
