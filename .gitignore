@@ -104,7 +104,7 @@ dist
 .tern-port
 
 # Private files
-*git.pem*
+private/
 
 # Wiki default path
 wiki/
