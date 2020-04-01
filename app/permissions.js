@@ -1,3 +1,7 @@
+const bcrypt = require('bcryptjs');
+const salt = bcrypt.genSaltSync(10);
+
+
 module.exports = {
     canWrite: canWrite
 }
@@ -12,4 +16,12 @@ function canWrite(req){
     const exploded = req.ip.replace("::ffff:", "").split(".");
     return exploded[0] === "192" && exploded[1] === "168" && exploded[2] === "1"
     || whitelist.includes(req.ip);
+}
+
+function hashPassword(){
+
+}
+
+function createUser(login, clear_password){
+
 }
