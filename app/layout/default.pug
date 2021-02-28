@@ -24,7 +24,7 @@ html
     link(rel="stylesheet", href=website.links.css)
     link(rel="icon", type="image/png", href=website.links.favicon)
   body
-    .header(style=(website.links.background ? "background-image:url('"+website.links.background+"')" : "")) 
+    .header(style=(website.links.header ? "background-image:url('"+website.links.header+"')" : "")) 
       form.userBar(method="POST", action="/"+(user.canWrite ? "logout" : "login"))
         // i #{user.ip}
         if (user.canWrite)

@@ -5,7 +5,7 @@ module.exports = async function (req, response){
 
     if (!page){
         response.error = { 
-            data: "404"
+            data: `Could not find page ${pagePath}`
         };
         return response;
     }
