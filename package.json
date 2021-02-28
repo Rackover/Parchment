@@ -23,6 +23,7 @@
     "pug": "^2.0.4",
     "random-words": "^1.1.1",
     "remove-markdown": "^0.3.0",
+    "sanitize-filename": "^1.6.3",
     "winston": "^3.2.1",
     "yargonaut": "^1.1.4",
     "yargs": "^15.1.0"

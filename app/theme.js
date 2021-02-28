@@ -27,11 +27,11 @@ function loadColor(colString){
 function generateCSS(){
     return fs.readFileSync(path.join(APPLICATION_ROOT, "public", cssPath))
     .toString()
-    .replace(/darkest_grey/g, scheme.darkest_grey.rgb().string())
-    .replace(/light_grey/g, scheme.light_grey.rgb().string())
-    .replace(/dark_grey/g, scheme.dark_grey.rgb().string())
-    .replace(/darkest/g, scheme.darkest.rgb().string())
-    .replace(/lightest/g, scheme.lightest.rgb().string())
-    .replace(/dark/g, scheme.dark.rgb().string())
-    .replace(/light/g, scheme.light.rgb().string())
+    .replace(/DARKEST_GREY/g, scheme.darkest_grey.hex())
+    .replace(/LIGHT_GREY/g, scheme.light_grey.hex())
+    .replace(/DARK_GREY/g, scheme.dark_grey.hex())
+    .replace(/DARKEST/g, scheme.darkest.hex())
+    .replace(/LIGHTEST/g, scheme.lightest.hex())
+    .replace(/DARK/g, scheme.dark.hex())
+    .replace(/LIGHT/g, scheme.light.hex())
 }

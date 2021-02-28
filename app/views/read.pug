@@ -14,11 +14,16 @@ mixin create_toc(tree, depth=0)
     if (anchor.nodes)
       +create_toc(anchor.nodes, depth+1)
 
+block head
+  script(src="/res/js/jquery.min.js")
+  script(src="/res/js/loginForm.js")
+
 block content
   .pageTitle #{meta.title == undefined ? "(No title)" : meta.title}
     .pageToolbar
       if (user.canWrite)
         a.pageEditButton(href="/write"+navigation.current) 🖋️ Edit...
+        a#createNewRootPage.pageEditButton(href="#") ➕ Create child
         a.pageEditButton(onclick="return confirm('YOU ARE GOING TO DELETE "+navigation.current+". Are you SURE you want to do this?')", href="/delete"+navigation.current)  ❌ Delete...
       a.pageEditButton(href=page.repoPath, target="_blank") 🐙 View on github
 

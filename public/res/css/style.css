@@ -29,7 +29,17 @@ body{
   justify-content:flex-start;
   margin:0px;
   height:100%;
-  background-color:lightest;
+
+  background: linear-gradient(90deg, LIGHTEST 21px, transparent 1%) center, linear-gradient(LIGHTEST 21px, transparent 1%) center, LIGHT;
+  background-size: 22px 22px;
+
+  /*
+  background:
+		linear-gradient(90deg, LIGHTEST (22px - 1px), transparent 1%) center,
+		linear-gradient(LIGHTEST (22px - 1px), transparent 1%) center,
+    LIGHT;
+  background-size: 22px 22px;
+  */
 }
 
 .header{
@@ -41,7 +51,7 @@ body{
 }
 
 .header h1{
-  text-indent: 1%;
+  padding-left:1vw;
   font-weight:normal;
   color: rgb(255, 255, 255); 
   mix-blend-mode: difference;
@@ -50,7 +60,7 @@ body{
 
 .header .userBar{
   font-style:italic;
-  color:light;
+  color:LIGHT;
   position:absolute;
   right:20PX;
   BOTTOM:0;
@@ -63,17 +73,26 @@ body{
   margin-left:10px;
   margin-right:10px;
   background:rgba(0,0,0,0.4);
-  border:1px solid darkest;
-  color: light;
+  border:1px solid DARKEST;
+  color: LIGHT;
   font-family: inherit;
   padding-left:4px;
 }
 
 .header .userBar input[type=submit]{
-  width:40px;
+  padding-left:10px;
+  padding-right:10px;
+  width:min-content;
+}
+
+.header #loginError{
+  color:red;
+  font-style: italic;
+  font-weight:bold;
 }
 
 .mainContainer{
+  flex-grow:1;
   display:flex;
   flex-direction:row;
   justify-content:flex-start;
@@ -81,7 +100,7 @@ body{
 }
 
 .navigation{
-  background-color:darkest_grey;
+  background-color:DARKEST_GREY;
   height:100%;
   flex: 1;
   width:auto;
@@ -96,54 +115,64 @@ body{
 }
 
 .navigation .column{
-  padding-left:20px;
+  margin-left:0px;
+  margin-right:0px;
 }
 
-.navigation div{
-  padding-top:2px;
-  padding-bottom:2px;
+.navigation .column div{
+  margin-top:2px;
+  margin-bottom:5px;
+  padding-left:20px;
+  padding-right:10px;
 }
 
 .navigation a{
   text-decoration:none;
-  color:light_grey;
+  color:LIGHT_GREY;
 }
 
 .navigation .selected{
   font-weight:bold;
-  color:light;
+  color:LIGHT;
 }
 
 .navigation .element:hover{
-  border:1px dotted light;
-  background-color:dark;
+  background-color:DARK;
+}
+
+.navigation .newPageButtons{
+  margin-bottom: 16px;
+}
+
+.navigation .element.newPage{
+  font-style: italic;
+  color:lightgreen;
 }
 
 .content .pageAddress a:hover{
-  border: 1px dotted light; 
+  border: 1px dotted LIGHT; 
 }
 
 .navigation .sectionTitle{
   font-weight:normal;
-  color:light;
+  color:LIGHT;
   text-align:center;
   margin:0px;
   padding-top:10px;
   padding-bottom:10px;
   margin-bottom:5px;
-  border-bottom:1px solid dark_grey;
+  border-bottom:1px solid DARK_GREY;
 }
 
 .content{
-  flex: 9;
+  flex: 6;
   padding:16px;
 }
 
 .content .pageTitle{
   font-size:2.5em;
-  text-transform: uppercase;
-  background-color:dark;
-  color:lightest;
+  border-bottom:1px solid DARK;
+  color:DARKEST;
   padding:6px;
   margin-bottom:6px;
   position:relative;
@@ -152,12 +181,13 @@ body{
 .content .pageTitle .pageToolbar{
   position:absolute;
   display:block;
-  bottom:0;
+  bottom:-6px;
   margin:5px;
   PADDING:5px;
-  right:40px;
+  right:-6px;
   font-size:12pt;
   text-transform: none;
+  background-color:DARK;
 }
 
 .content .anchor{
@@ -174,11 +204,11 @@ body{
 }
 
 .pageToolbar a{
-  color:lightest;
+  color:LIGHTEST;
   text-decoration: none;
 }
 .pageToolbar a:hover{
-    
+    text-decoration:underline;
 }
 
 .pageToolbar .pageEditButton{
@@ -187,12 +217,12 @@ body{
 
 .content .pageSubTitle{
   font-size:1.5em;
-  color:light;
+  color:LIGHT;
   font-style: italic;
 }
 
 .content .pageAddress{
-  color:light;
+  color:LIGHT;
   font-style: italic;
 }
 
@@ -211,10 +241,9 @@ body{
 }
 
 .content h2{
-  border: 1px solid darkest;
+  border-bottom: 1px solid DARKEST;
   padding:4px;
   font-size:1em;
-  background-color: white;
 }
 
 .content h3{
@@ -224,9 +253,9 @@ body{
   margin-bottom:-10px;
 }
 
-.content code{
+.content pre code{
   color: #AA0000;
-  background-color: #ffe3e3;
+  padding:15px;
 }
 
 .content table td, .content table tr, .content table th{
@@ -237,8 +266,8 @@ body{
 }
 
 .content table thead{
-  background-color:dark;
-  color:lightest;
+  background-color:DARK;
+  color:LIGHTEST;
 }
 
 .content .fileBrowser{
@@ -248,8 +277,8 @@ body{
   top:10%;
   left:15%;
   z-index:10;
-  background-color:light_grey;
-  border:1px solid light;	
+  background-color:LIGHT_GREY;
+  border:1px solid LIGHT;	
   box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.4);
 
   display:flex;
@@ -303,16 +332,16 @@ body{
   background-color: rgba(0,0,0,0.4);
 }
 .content .fileBrowser #folderView .entry:hover {
-  background-color: light;
+  background-color: LIGHT;
   cursor:pointer;
 }
 .content .fileBrowser #folderView .entry.selected:hover {
-  background-color: darkest;
-  color:lightest;
+  background-color: DARKEST;
+  color:LIGHTEST;
 }
 
 .content .fileBrowser #folderView .entry:hover .preview{
-  color:dark;
+  color:DARK;
 }
 
 .content .fileBrowser #folderView .entry .preview{
@@ -320,7 +349,7 @@ body{
   height: 64px;
   margin:8px;
   font-size: 58px;
-  color:light;
+  color:LIGHT;
 }
 .content .fileBrowser #folderView .entry .preview img{
   max-width: 100%;
@@ -466,8 +495,8 @@ blockquote.danger{
 
 .toc {
   margin-top:10px;
-  background-color:light_grey;
-  border:1px solid light;
+  background-color:LIGHT_GREY;
+  border:1px solid LIGHT;
   padding:10px;
   padding-top:0px;
   float: right;
@@ -476,7 +505,7 @@ blockquote.danger{
 .toc .link{
   margin-left:5px;
   margin-right:5px;
-  color:darkest;
+  color:DARKEST;
   text-decoration:none;
 }
 
@@ -488,4 +517,96 @@ blockquote.danger{
   border:none;
   margin:none;
   background:none;
+}
+
+#loadingContainer::before {
+  content: "";
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%; 
+  height: 100%;  
+  opacity: .4; 
+  z-index: -1;
+  background-color:LIGHTEST;
+}
+
+#loadingContainer{
+  display:none;
+  position:fixed;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+}
+
+#loadingContainer div{
+  opacity: 100%;
+}
+
+/*
+Loading animation
+==========================
+*/
+
+.sk-cube-grid {
+  width: 40px;
+  height: 40px;
+  margin: 100px auto;
+}
+
+.sk-cube-grid .sk-cube {
+  width: 33%;
+  height: 33%;
+  background-color: DARK;
+  float: left;
+  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+          animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+}
+.sk-cube-grid .sk-cube1 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube2 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube3 {
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s; }
+.sk-cube-grid .sk-cube4 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube5 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube6 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube7 {
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s; }
+.sk-cube-grid .sk-cube8 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube9 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); 
+  }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1);
+  } 
 }

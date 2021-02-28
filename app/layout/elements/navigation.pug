@@ -1,3 +1,12 @@
 h2.sectionTitle Navigation
 .column
+    if (user.canWrite)
+      .newPageButtons
+        a#createNewChildPage(href="#") 
+          .element.newPage 
+            | ➕ New page...
+        //- a#createNewRootPage(href="#") 
+        //-   .element.newPage 
+        //-     | ➕ New child page...
+
     +recursive_loop(navigation.arborescence, 0, navigation.current, "/read")

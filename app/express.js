@@ -74,6 +74,7 @@ module.exports = function(port){
     {name:"upload", isProtected: true},
     {name:"destroy", isProtected: true},
     {name:"makedirectory", isProtected: true},
+    {name:"logout", isProtected: true},
     {name:"login", isProtected: false}
   ]
   for (k in apiRoutes){
