@@ -10,8 +10,8 @@ module.exports = {
     cssPath: cssPath
 }
 
-function loadColor(colString){
-    let baseColor = color(colString)
+function loadColor(){
+    let baseColor = color(WIKI_COLOR)
 
     scheme = {
         lightest: baseColor.whiten(0.5),

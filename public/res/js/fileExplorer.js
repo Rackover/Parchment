@@ -45,7 +45,7 @@ function init(){
                     loadEntries(currentPath, xhr.response.content, true)
                 }
             })
-            xhr.open('POST', "/destroy", true);
+            xhr.open('POST', "/destroyFile", true);
             xhr.responseType = "json"
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
             xhr.send("path="+selectedEntry.path);

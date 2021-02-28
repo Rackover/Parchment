@@ -6,6 +6,7 @@ const session = require('express-session')
 const MemoryStore = require('memorystore')(session)
 
 const theme = require("./theme.js")
+theme.loadColor()
 
 module.exports = function(port){
   const express = require('express')
@@ -42,8 +43,9 @@ module.exports = function(port){
   
   // All routes
   app.get('/', function (req, res) {
-    res.redirect(routes[0].name)
+    res.redirect("read/home.md");
   })
+
   for (k in routes){
     const route = routes[k].name
     const isProtected = routes[k].isProtected
@@ -72,7 +74,8 @@ module.exports = function(port){
   const apiRoutes = [
     {name:"submit", isProtected: true},
     {name:"upload", isProtected: true},
-    {name:"destroy", isProtected: true},
+    {name:"destroyPage", isProtected: true},
+    {name:"destroyFile", isProtected: true},
     {name:"makedirectory", isProtected: true},
     {name:"logout", isProtected: true},
     {name:"login", isProtected: false}
@@ -96,7 +99,6 @@ module.exports = function(port){
 
   // CSS faking route
   app.get(theme.cssPath, function (req, res) {
-    theme.loadColor("#AAAADD")
     res.set('Content-Type', 'text/css');
     res.send(theme.generateCSS())
   })
@@ -149,7 +151,9 @@ function getHeaderInfo(){
 function getFooterInfo(){
   return {
     year: new Date().getFullYear(),
-    owner: "louve@louve.systems"
+    owner: "louve@louve.systems",
+    parchmentInfo: global.VERSION,
+    repositoryUrl: "https://github.com/Rackover/Parchment"
   }
 }
 

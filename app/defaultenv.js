@@ -10,7 +10,7 @@ module.exports = {
   GIT_PULL_INTERVAL: 1, // minutes
   GIT_PUSH_INTERVAL: 0, // minutes
   PERMISSION_FILE: path.join(EXECUTION_ROOT,"private/users.txt"),
-  WIKI_PATH: path.join(EXECUTION_ROOT, "wiki"),
+  WIKI_PATH: "wiki",
   WIKI_CONTENT_UPDATE_INTERVAL: 1 //minutes
   
 }

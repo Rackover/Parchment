@@ -4,6 +4,9 @@
 require("yargonaut")
   .helpStyle('green')
 
+global.VERSION = `LouveSystems' Parchment v1.0`;
+
+const path = require('path');
 const yargs = require('yargs');
 const argv = yargs
   .command('adduser <login> <clear_password>', 'Adds an user to the wiki',{
@@ -11,6 +14,8 @@ const argv = yargs
   .command('deluser <login>', 'Removes an user from the wiki',{
   })
   .command('run', 'Runs the wiki',{
+  })
+  .command('version', 'Prints the Parchment version number',{
   })
   .option('debuglvl', {
       alias: 'd',
@@ -55,7 +60,7 @@ const argv = yargs
       description: 'Path for the wiki',
       type: 'string',
   })
-  .usage("\n==========================\nWelcome to Parchment!\n==========================\n\nUsage: $0 <command> [options]")
+  .usage(`\n==========================\nWelcome to ${global.VERSION}}!\n==========================\n\nUsage: $0 <command> [options]`)
   .example("node app run")
   .help()
   .alias('help', 'h')
@@ -69,11 +74,15 @@ const argv = yargs
 // Setting up ENV variables and main components
 //
 global.EXECUTION_ROOT = argv.path || process.cwd();
-global.APPLICATION_ROOT = require('path').resolve(__dirname);
+global.APPLICATION_ROOT = path.resolve(__dirname);
 
 process.env = require("./app/env.js")(argv);
 global.WIKI_PATH = process.env.WIKI_PATH
-global.WIKI_NAME = argv.name || process.env.GIT_REPO_URL.split("/").pop().replace(".git", "").toUpperCase()
+
+const meta = require(path.join(EXECUTION_ROOT, WIKI_PATH, "meta.json"));
+
+global.WIKI_NAME = argv.name || meta.name || process.env.GIT_REPO_URL.split("/").pop().replace(".git", "").toUpperCase()
+global.WIKI_COLOR = meta.color || "#AAAADD";
 global.WIKI_CONTENTS_DIRECTORY_NAME = "_contents";
 
 global.logger = require("./app/logger.js")
@@ -107,7 +116,7 @@ if (argv._.includes('run')){
   })
   .then(()=>{
     logger.info("Parchment ready!")
-    try{console.log(require("fs").readFileSync(require('path').join(APPLICATION_ROOT, "res/ready.txt")).toString())}catch(e){
+    try{console.log(require("fs").readFileSync(path.join(APPLICATION_ROOT, "res/ready.txt")).toString())}catch(e){
       logger.warning(`There seem to be a problem with the APPLICATION_ROOT (${APPLICATION_ROOT})`);      
     }
   });  
@@ -122,6 +131,10 @@ else if (argv._.includes('deluser')){
     permissions.destroyUser(argv.login)
     permissions.writePermissions()
     logger.info("User "+argv.login+" was successfully removed from the user list. Shutting down.")
+    process.exit(0)
+}
+else if (argv._.includes('version')){
+    logger.info(`${VERSION}`);
     process.exit(0)
 }
 else {

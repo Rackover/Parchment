@@ -21,6 +21,10 @@ module.exports = async function (req, response){
     response.page = page
     response.prefix = "/read"; // used by the path display on the page
     
+    if (response.meta.title == undefined){
+        response.meta.title = "(No title)";
+    }
+
     return response;
 }
   

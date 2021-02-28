@@ -19,12 +19,16 @@ block head
   script(src="/res/js/loginForm.js")
 
 block content
-  .pageTitle #{meta.title == undefined ? "(No title)" : meta.title}
+  .pageTitle #{meta.title}
     .pageToolbar
       if (user.canWrite)
         a.pageEditButton(href="/write"+navigation.current) 🖋️ Edit...
         a#createNewRootPage.pageEditButton(href="#") ➕ Create child
-        a.pageEditButton(onclick="return confirm('YOU ARE GOING TO DELETE "+navigation.current+". Are you SURE you want to do this?')", href="/delete"+navigation.current)  ❌ Delete...
+        form(action="/destroyPage", method="POST")
+          input(type="hidden", name="path", value=navigation.current)
+          a#destroyPage.pageEditButton(href="#", name=meta.title)
+            | ❌ Delete...
+      
       a.pageEditButton(href=page.repoPath, target="_blank") 🐙 View on github
 
   if (hierarchy.length > 1)

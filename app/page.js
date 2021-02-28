@@ -8,7 +8,8 @@ module.exports = {
     getFormattedContents: getFormattedContents,
     getContents: getContents,
     add: addPage,
-    create: addNewPage
+    create: addNewPage,
+    destroy: destroyPage
 }
 
 function getFormattedContents(diskPath){
@@ -42,4 +43,27 @@ async function addNewPage(parentDirectory, pageName){
     await addPage(virtualPath, pageContents);
 
     return virtualPath;
+}
+
+async function destroyPage(virtualPath){
+    const diskPath = path.join(WIKI_PATH, virtualPath)
+    const elems = virtualPath.split("/")
+    const fileName = elems[elems.length-1]
+    logger.info("Destroying page "+fileName+"...")
+
+    const mdPath = path.join(EXECUTION_ROOT, diskPath)
+    const dirPath = mdPath.substring(0, mdPath.length-3);
+
+    if (fs.existsSync(dirPath)){
+        logger.debug("Rimrafing "+dirPath);
+        utility.rimraf(dirPath)
+    }
+
+    logger.debug("Unlinking "+mdPath);
+    fs.unlinkSync(mdPath);
+
+    await wikiMap.updateTree()
+    await git.checkAndUploadModifications("Destroyed "+fileName)
+
+    logger.info("Done destroying page "+fileName+"!")
 }

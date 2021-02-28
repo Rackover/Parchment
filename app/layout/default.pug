@@ -24,6 +24,7 @@ html
     link(rel="stylesheet", href=website.links.css)
     link(rel="icon", type="image/png", href=website.links.favicon)
     script(src="/res/js/createNewPage.js")
+    script(src="/res/js/destroyPage.js")
   body
     .header(style=(website.links.header ? "background-image:url('"+website.links.header+"')" : "")) 
       form.userBar(method="POST", action="/"+(user.canWrite ? "logout" : "login"), id="loginForm")
