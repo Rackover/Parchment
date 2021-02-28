@@ -12,7 +12,7 @@ module.exports = async function(){
   const privateKeyPath = require("path").join(APPLICATION_ROOT, process.env.GIT_PEM_FILE);
 
   if (!fs.existsSync(privateKeyPath)){
-    logger.error("Could NOT read the private key file "+privateKeyPath+"\n"+JSON.stringify(e, null, 4))
+    logger.error("Could NOT read the private key file "+privateKeyPath);
     process.exit(1)
   }
 

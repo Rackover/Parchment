@@ -3,7 +3,7 @@ module.exports = {
 }
 
 const whitelist = [
-    "2a01:cb0c:882:1400:30e6:9ecb:e3c:7aeb", // 970 HOME VAL 
+    "2001:861:34c4:9360:1cfb:2ca8:c87a:9061", // 970 HOME VAL 
     "2a01:cb0c:882:1400:d9ff:9aff:8a16:2d14" // TWONK HOME VAL
 ]
 
