@@ -41,7 +41,7 @@ async function scanDirectory(dirPath){
                     .replace("git@", "https://")
                     .replace(".git", "/blob/"+process.env.GIT_REPO_BRANCH), 
                 virtualPath),
-            name: markdown.parseMeta(contents.toString()).title,
+            name: markdown.parseMeta(contents.toString()).title || name,
             children: fs.existsSync(fullPathNoExt) ? await scanDirectory(fullPathNoExt) : false
         }
 

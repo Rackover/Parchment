@@ -85,7 +85,10 @@ function writePermissions(){
         strPerm += permissions[k].b64login+":"+permissions[k].hash+": ("+k+")\n"
     }
     // Copy before writing
-    fs.copyFileSync(PERMISSION_FILE, PERMISSION_FILE+backupName)
+    if (fs.existsSync(PERMISSION_FILE)){
+        fs.copyFileSync(PERMISSION_FILE, PERMISSION_FILE+backupName)
+    }
+    
     fs.writeFileSync(PERMISSION_FILE, strPerm)
     logger.debug("Wrote permissions to file")
 }

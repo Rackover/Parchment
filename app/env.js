@@ -1,5 +1,5 @@
 const envfile = require('envfile')
-const fs = requrie('fs');
+const fs = require('fs');
 
 module.exports = function(argv){
   let cEnv = fs.existsSync('.env') ? envfile.parse('.env') : {};
@@ -10,7 +10,8 @@ module.exports = function(argv){
   // 2) envFile
   // 3) default
   for (k in defaultEnv){
-    cEnv[k] = isNaN(defaultEnv[k]) ? (process.env[k] || cEnv[k] || defaultEnv[k]) : parseInt(process.env.PORT || cEnv.PORT || defaultEnv.PORT);
+    cEnv[k] = isNaN(defaultEnv[k]) ? (process.env[k] || cEnv[k] || defaultEnv[k]) : parseInt(process.env[k] || cEnv[k] || defaultEnv[k]);
+    // // console.log(k+" => "+cEnv[k]);
   }
 
   // Additional overrides via ARGV

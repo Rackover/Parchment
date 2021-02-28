@@ -15,7 +15,7 @@ mixin create_toc(tree, depth=0)
       +create_toc(anchor.nodes, depth+1)
 
 block content
-  .pageTitle #{meta.title}
+  .pageTitle #{meta.title == undefined ? "(No title)" : meta.title}
     .pageToolbar
       if (user.canWrite)
         a.pageEditButton(href="/write"+navigation.current) 🖋️ Edit...

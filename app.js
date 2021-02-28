@@ -68,7 +68,8 @@ const argv = yargs
 //  
 // Setting up ENV variables and main components
 //
-global.APPLICATION_ROOT = argv.path || process.cwd();
+global.EXECUTION_ROOT = argv.path || process.cwd();
+global.APPLICATION_ROOT = require('path').resolve(__dirname);
 
 process.env = require("./app/env.js")(argv);
 global.WIKI_PATH = process.env.WIKI_PATH
@@ -84,7 +85,7 @@ global.wikiPage = require("./app/page.js")
 global.wikiContents = require('./app/content.js')
 global.utility = require("./app/utility.js")
 
-logger.debug("Using root path: "+APPLICATION_ROOT+" and wiki path: "+WIKI_PATH)
+logger.debug(`Running in directory ${EXECUTION_ROOT} with application root ${APPLICATION_ROOT} and wiki path: ${WIKI_PATH}`)
 logger.debug("Parchment currently running as OS user: "+require('os').userInfo().username)
 
 //
@@ -106,7 +107,9 @@ if (argv._.includes('run')){
   })
   .then(()=>{
     logger.info("Parchment ready!")
-    try{console.log(require("fs").readFileSync("./res/ready.txt").toString())}catch(e){}
+    try{console.log(require("fs").readFileSync(require('path').join(APPLICATION_ROOT, "res/ready.txt")).toString())}catch(e){
+      logger.warning(`There seem to be a problem with the APPLICATION_ROOT (${APPLICATION_ROOT})`);      
+    }
   });  
 }
 else if (argv._.includes('adduser')){

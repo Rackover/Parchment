@@ -14,7 +14,7 @@ module.exports = function(port){
   ///////
   // Middlewares
   app.set('view engine', 'pug')
-  app.set('views', './app/views')
+  app.set('views', path.join(APPLICATION_ROOT, 'app/views'));
   app.use(fileUpload({
     safeFileNames: /\\/g,
     limits: { fileSize: 50 * 1024 * 1024 },
@@ -107,7 +107,7 @@ module.exports = function(port){
       res.json(wikiContents.getEntries(req.path))
     }
     else{
-	  res.sendFile(path.join(global.APPLICATION_ROOT, WIKI_PATH, req.path))
+	  res.sendFile(path.join(global.EXECUTION_ROOT, WIKI_PATH, req.path))
     }
   })
 
