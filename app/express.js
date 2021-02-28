@@ -1,9 +1,10 @@
-const fs = require("fs");
-const path = require("path");
-const bodyParser = require("body-parser");
-const fileUpload = require('express-fileupload');
+const fs = require("fs")
+const path = require("path")
+const bodyParser = require("body-parser")
+const fileUpload = require('express-fileupload')
+const session = require('express-session')
+const MemoryStore = require('memorystore')(session)
 
-const permissions = require("./permissions.js")
 const theme = require("./theme.js")
 
 module.exports = function(port){
@@ -19,6 +20,16 @@ module.exports = function(port){
     limits: { fileSize: 50 * 1024 * 1024 },
     createParentPath: true
   }))
+
+  app.use(session({
+    secret: Math.random().toString(36).substr(2, 8),
+    store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
+    resave: false,
+    saveUninitialized: false
+  }))
+
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
 
@@ -26,7 +37,7 @@ module.exports = function(port){
   // Routing
   const routes = [
     {name:"read/*", isProtected: false},
-    {name:"write/*", isProtected: true}
+    {name:"write/*", isProtected: true},
   ]
   
   // All routes
@@ -62,7 +73,8 @@ module.exports = function(port){
     {name:"submit", isProtected: true},
     {name:"upload", isProtected: true},
     {name:"destroy", isProtected: true},
-    {name:"makedirectory", isProtected: true}
+    {name:"makedirectory", isProtected: true},
+    {name:"login", isProtected: false}
   ]
   for (k in apiRoutes){
     const route = apiRoutes[k].name

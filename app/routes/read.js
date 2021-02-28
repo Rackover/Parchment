@@ -19,6 +19,7 @@ module.exports = async function (req, response){
     response.tree = md.tree
     response.hierarchy = wikiMap.getHierarchyInfo(pagePath)
     response.page = page
+    response.prefix = "/read"; // used by the path display on the page
     
     return response;
 }

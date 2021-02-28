@@ -9,16 +9,16 @@ module.exports = async function(){
   
   const git = require('git-wrapper2-promise')
   
-  const privateKeyPath = require("path").join(APPLICATION_ROOT, process.env.GIT_PEM_FILE);
+  const privateKeyPath = process.env.GIT_PEM_FILE;
 
   if (!fs.existsSync(privateKeyPath)){
-    logger.error("Could NOT read the private key file "+privateKeyPath+"\n"+JSON.stringify(e, null, 4))
+    logger.error("Could NOT read the private key file "+privateKeyPath+". Make sure the file exists.")
     process.exit(1)
   }
 
   await mkdir(WIKI_PATH).catch((e) => {
     if (e.code !== 'EEXIST') {
-      logger.error("Could NOT create the directory "+WIKI_PATH+". Please check the permissions.\n"+JSON.stringify(e, null, 4))
+      logger.error("Could NOT create the directory "+WIKI_PATH+". Please check the permissions and make sure the destination exists.\n"+JSON.stringify(e, null, 4))
       process.exit(1)
     }
   })

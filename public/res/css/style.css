@@ -33,7 +33,6 @@ body{
 }
 
 .header{
-  border-bottom:1px dotted grey;
   background-size:cover;
   background-repeat: no-repeat;
   background-origin: content-box;
@@ -46,6 +45,7 @@ body{
   font-weight:normal;
   color: rgb(255, 255, 255); 
   mix-blend-mode: difference;
+  width:10%;
 }
 
 .header .userBar{
@@ -58,6 +58,21 @@ body{
   text-align:right;
 }
 
+.header .userBar input{
+  width:120px;
+  margin-left:10px;
+  margin-right:10px;
+  background:rgba(0,0,0,0.4);
+  border:1px solid darkest;
+  color: light;
+  font-family: inherit;
+  padding-left:4px;
+}
+
+.header .userBar input[type=submit]{
+  width:40px;
+}
+
 .mainContainer{
   display:flex;
   flex-direction:row;
@@ -66,7 +81,6 @@ body{
 }
 
 .navigation{
-  border-right:1px dotted grey;
   background-color:darkest_grey;
   height:100%;
   flex: 1;
@@ -122,8 +136,7 @@ body{
 
 .content{
   flex: 9;
-  padding:10px;
-  padding-left:20px;
+  padding:16px;
 }
 
 .content .pageTitle{
@@ -165,7 +178,7 @@ body{
   text-decoration: none;
 }
 .pageToolbar a:hover{
-  border:1px dotted lightest;
+    
 }
 
 .pageToolbar .pageEditButton{
@@ -409,18 +422,22 @@ body{
 }
 
 .footer{
-  height:24px;
-  text-align:center;
-  width:100%;
+  text-align:right;
+  float:right;
   display:flex;
   flex-direction:row;
-  justify-content:space-around;
+  justify-content:flex-end;
   font-size:8pt;
-  padding:8px;
-  padding-left:0px;
-  padding-right:0px;
-  font-weight:bold;
-  border-top:1px dotted grey;
+  color: rgb(255, 255, 255);
+  position: fixed;
+  bottom:5px;
+  right:5px;
+  background:rgba(0,0,0,0.4);
+  border-radius:5px;
+}
+
+.footer div{
+  padding:4px;
 }
 
 blockquote{
@@ -453,7 +470,7 @@ blockquote.danger{
   border:1px solid light;
   padding:10px;
   padding-top:0px;
-  float:right;
+  float: right;
 }
 
 .toc .link{

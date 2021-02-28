@@ -6,9 +6,9 @@ require("yargonaut")
 
 const yargs = require('yargs');
 const argv = yargs
-  .command('is_configured', 'Checks if the app has been configured correctly', {
+  .command('adduser <login> <clear_password>', 'Adds an user to the wiki',{
   })
-  .command('configure', 'Configures the app for first use',{
+  .command('deluser <login>', 'Removes an user from the wiki',{
   })
   .command('run', 'Runs the wiki',{
   })
@@ -29,6 +29,10 @@ const argv = yargs
   })
   .option('pemfile', {
       description: 'Path to the permission file for git',
+      type: 'string',
+  })
+  .option('usersfile', {
+      description: 'Path to the users database TXT',
       type: 'string',
   })
   .option('repo', {
@@ -71,16 +75,17 @@ global.WIKI_PATH = process.env.WIKI_PATH
 global.WIKI_NAME = argv.name || process.env.GIT_REPO_URL.split("/").pop().replace(".git", "").toUpperCase()
 global.WIKI_CONTENTS_DIRECTORY_NAME = "_contents";
 
-global.logger = require("./app/log/logger.js")
+global.logger = require("./app/logger.js")
 const gitStarter = require("./app/git.js") // Will become global.git
 global.markdown = require("./app/markdown.js")
+global.permissions = require("./app/permissions.js")
 global.wikiMap = require("./app/map.js")
 global.wikiPage = require("./app/page.js")
 global.wikiContents = require('./app/content.js')
 global.utility = require("./app/utility.js")
 
 logger.debug("Using root path: "+APPLICATION_ROOT+" and wiki path: "+WIKI_PATH)
-logger.debug("Parchment currently running as user: "+require('os').userInfo().username)
+logger.debug("Parchment currently running as OS user: "+require('os').userInfo().username)
 
 //
 ////////////////////////////////////
@@ -104,7 +109,19 @@ if (argv._.includes('run')){
     try{console.log(require("fs").readFileSync("./res/ready.txt").toString())}catch(e){}
   });  
 }
-
+else if (argv._.includes('adduser')){
+    permissions.addUser(argv.login, argv.clear_password)
+    permissions.writePermissions()
+    logger.info("User "+argv.login+" was succesfully added. Shutting down.")
+    process.exit(0)
+}
+else if (argv._.includes('deluser')){
+    permissions.destroyUser(argv.login)
+    permissions.writePermissions()
+    logger.info("User "+argv.login+" was successfully removed from the user list. Shutting down.")
+    process.exit(0)
+}
 else {
-  logger.error("Nothing to do.");
+  logger.error("Nothing to do.")
+  process.exit(0)
 }
