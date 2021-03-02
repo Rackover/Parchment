@@ -14,6 +14,7 @@ mixin recursive_loop(array, depth, current, prefix)
       +recursive_loop(content.children, depth+1, current, prefix)
     - i++
 
+include mixins/embed
 
 doctype html
 html
@@ -25,6 +26,13 @@ html
     link(rel="icon", type="image/png", href=website.links.favicon)
     script(src="/res/js/createNewPage.js")
     script(src="/res/js/destroyPage.js")
+
+    // Twitter headers and stuff
+    - var title = website.name;
+    if (meta != undefined)
+      - title = meta.title
+
+    +embed(website.name, title, website.links.favicon)
   body
     .header(style=(website.links.header ? "background-image:url('"+website.links.header+"')" : "")) 
       form.userBar(method="POST", action="/"+(user.canWrite ? "logout" : "login"), id="loginForm")
