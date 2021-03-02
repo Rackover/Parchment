@@ -39,7 +39,20 @@ const toolbarHeading = {
 
 const toolbarImage = {
     "name":"image",
-    "action": SimpleMDE.drawImage,
+    "action": function (editor){
+        var cm = editor.codemirror;
+        var stat = SimpleMDE.getState(cm);
+        var options = editor.options;
+        var url = "http://";
+        if(options.promptURLs) {
+            url = prompt(options.promptTexts.image);
+            if(!url) {
+                return false;
+            }
+        }
+        
+        editor.replaceSelection(encodeURI(url));
+    },
     "title": "Insert Image",
     "className": "fa fa-image"
 }
@@ -75,7 +88,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
             promptURLs: true,
             autofocus: true,
             toolbar: toolbar,
-            autoDownloadFontAwesome: false
+            autoDownloadFontAwesome: false,
+            spellChecker: false
         }
     );
 

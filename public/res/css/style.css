@@ -168,6 +168,10 @@ body{
   padding:16px;
 }
 
+.content img{
+  margin:5px;
+}
+
 .content .pageTitle{
   font-size:2.5em;
   border-bottom:1px solid DARK;
@@ -187,6 +191,10 @@ body{
   font-size:12pt;
   text-transform: none;
   background-color:DARK;
+}
+
+.content .pageTitle .pageToolbar form{
+  display:inline;
 }
 
 .content .anchor{
@@ -233,23 +241,37 @@ body{
   font-weight: bold;
 }
 
+.content p, .content table{
+  padding-left:8px;
+  padding-right:8px;
+}
+
+.content tbody tr:nth-of-type(odd) {
+  background-color:rgba(0,0,0,0.1);
+}
 
 .content h1{
-  border-bottom: 1px dotted grey;
-  font-size:1.5em
+  border-bottom: 1px dotted DARK;
+  font-size:1.75em
 }
 
 .content h2{
-  border-bottom: 1px solid DARKEST;
+  border-bottom: 1px dotted grey;
   padding:4px;
-  font-size:1em;
+  font-size:1.25em;
 }
 
 .content h3{
   font-size: 1em;
   font-weight: bold;
-  border-bottom:1px dotted grey;
   margin-bottom:-10px;
+}
+
+.content code{
+  PADDING:2px;
+  border-radius:12px;
+  color: #AA0000;
+  background-color: #FFBBBB;
 }
 
 .content pre code{
@@ -550,6 +572,19 @@ blockquote.danger{
 
 #loadingContainer div{
   opacity: 100%;
+}
+
+/*
+Markdown extensions
+=========================
+*/
+
+img[alt$=">"] {
+  float: right;
+}
+
+img[alt$="<"] {
+  float: left;
 }
 
 /*

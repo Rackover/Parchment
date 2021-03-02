@@ -26,9 +26,12 @@ async function addPage(virtualPath, contents){
     const fileName = elems[elems.length-1]
     logger.info("Adding page "+fileName+"...")
     mkdirp.sync(diskPath.substring(0, diskPath.lastIndexOf('/')))
+
     await writeFile(diskPath, contents)
-    await wikiMap.updateTree()
+
+    // This will update tree
     await git.checkAndUploadModifications("Updated "+fileName)
+    
     logger.info("Done adding page "+fileName+"!")
 }
 
@@ -62,7 +65,7 @@ async function destroyPage(virtualPath){
     logger.debug("Unlinking "+mdPath);
     fs.unlinkSync(mdPath);
 
-    await wikiMap.updateTree()
+    // This will update the tree aswell
     await git.checkAndUploadModifications("Destroyed "+fileName)
 
     logger.info("Done destroying page "+fileName+"!")

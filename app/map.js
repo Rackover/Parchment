@@ -3,6 +3,10 @@ const util = require('util');
 const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
 const path = require("path")
+const EventEmitter = require('events');
+
+const bus = new EventEmitter();
+let isOperating = false;
 
 let tree = {}
 let pages = {}
@@ -15,7 +19,13 @@ module.exports = {
 }
 
 async function updateTree(){
+    if (isOperating) await new Promise(resolve => bus.once('unlocked', resolve));
+    isOperating = true;
+
     tree = await scanDirectory(WIKI_PATH)
+
+    isOperating = false;
+    bus.emit('unlocked');
 }
 
 async function scanDirectory(dirPath){

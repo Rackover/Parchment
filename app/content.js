@@ -42,6 +42,8 @@ function updateThemeLinks(){
         }
     }
 
+    require("./theme.js").loadColor();
+
     logger.debug("Done!")
 }
 

@@ -19,7 +19,8 @@ module.exports = async function(req){
         }
     }
     else{
-        await wikiPage.add(body.virtualPath, body.data)
+        // Async fired without await
+        wikiPage.add(body.virtualPath, body.data)
     }
 
     return {

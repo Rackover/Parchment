@@ -7,7 +7,7 @@ module.exports = {
   GIT_PEM_FILE: path.join(EXECUTION_ROOT, "private/git.pem"),
   GIT_REPO_URL: "git@github.com:louvekingdoms/Wiki.git",
   GIT_REPO_BRANCH: "auto",
-  GIT_PULL_INTERVAL: 1, // minutes
+  GIT_PULL_INTERVAL: 10, // minutes
   GIT_PUSH_INTERVAL: 0, // minutes
   PERMISSION_FILE: path.join(EXECUTION_ROOT,"private/users.txt"),
   WIKI_PATH: "wiki",

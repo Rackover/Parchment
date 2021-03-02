@@ -107,14 +107,14 @@ module.exports = function(port){
   app.get('/'+WIKI_CONTENTS_DIRECTORY_NAME+"/*", function(req, res){
     if (req.query.dir && permissions.canWrite(req)){
       //?dir=1
-      res.json(wikiContents.getEntries(req.path))
+      res.json(wikiContents.getEntries(decodeURI(req.path)))
     }
     else{
-	  res.sendFile(path.join(global.EXECUTION_ROOT, WIKI_PATH, req.path))
+	    res.sendFile(path.join(global.EXECUTION_ROOT, WIKI_PATH, decodeURI(req.path)))
     }
   })
 
-  // Public directory
+  // Public (parchment) directory
   app.use(express.static(path.join(APPLICATION_ROOT, 'public')));
   
   return new Promise(function(resolve, reject){

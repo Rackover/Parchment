@@ -136,8 +136,8 @@ function appendEntryDiv(entry){
             e.stopPropagation()
             if (selectedDiv == entryDiv){
                 insertFunction(entry.isImage ? 
-                    "!["+entry.name+"](/"+entry.path+")" :
-                    "["+entry.name+"](/"+entry.path+")"
+                    "!["+entry.name+"](/"+encodeURI(entry.path)+")" :
+                    "["+entry.name+"](/"+encodeURI(entry.path)+")"
                 )
                 hide()
             }

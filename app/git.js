@@ -130,6 +130,8 @@ async function checkAndUploadModifications(changesName=null){
     return gitClient.push("origin", process.env.GIT_REPO_BRANCH)
   });
   logger.info("Done!")
+  
+  await wikiMap.updateTree()
 
   isOperating = false;
 }
