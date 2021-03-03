@@ -269,14 +269,15 @@ body{
 
 .content code{
   PADDING:2px;
-  border-radius:12px;
+  border-radius:4px;
   color: #AA0000;
-  background-color: #FFBBBB;
+  background-color: #FFE6E68C;
 }
 
 .content pre code{
   color: #AA0000;
   padding:15px;
+  display:block;
 }
 
 .content table td, .content table tr, .content table th{
