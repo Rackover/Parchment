@@ -1,13 +1,16 @@
 const fs = require('fs')
 const util = require('util');
 const mkdir = util.promisify(fs.mkdir);
+const path = require('path');
 
 let gitClient;
 let isOperating = false;
 
 module.exports = async function(){
   
-  const git = require('git-wrapper2-promise')
+  const wikiPath = WIKI_PATH;
+
+  const git = require('git-wrapper2-promise');
   
   const privateKeyPath = process.env.GIT_PEM_FILE;
 
@@ -16,22 +19,22 @@ module.exports = async function(){
     process.exit(1)
   }
 
-  await mkdir(WIKI_PATH).catch((e) => {
+  await mkdir(wikiPath).catch((e) => {
     if (e.code !== 'EEXIST') {
-      logger.error("Could NOT create the directory "+WIKI_PATH+". Please check the permissions and make sure the destination exists.\n"+JSON.stringify(e, null, 4))
+      logger.error("Could NOT create the directory "+wikiPath+". Please check the permissions and make sure the destination exists.\n"+JSON.stringify(e, null, 4))
       process.exit(1)
     }
   })
 
-  gitClient = new git({ 'git-dir': WIKI_PATH });
+  gitClient = new git({ 'git-dir': wikiPath });
   const isRepo = await gitClient.isRepo().catch(e => {
-    logger.error("Could NOT identify "+WIKI_PATH+" as a repository\n"+JSON.stringify(e, null, 4))
+    logger.error("Could NOT identify "+wikiPath+" as a repository\n"+JSON.stringify(e, null, 4))
     process.exit(1)
   })
 
   if (!isRepo){
     await gitClient.exec("init").catch(e => {
-      logger.error("Could NOT init "+WIKI_PATH+"\n"+JSON.stringify(e, null, 4))
+      logger.error("Could NOT init "+wikiPath+"\n"+JSON.stringify(e, null, 4))
       process.exit(1)
     });
   }

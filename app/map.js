@@ -22,7 +22,7 @@ async function updateTree(){
     if (isOperating) await new Promise(resolve => bus.once('unlocked', resolve));
     isOperating = true;
 
-    tree = await scanDirectory(WIKI_PATH)
+    tree = await scanDirectory( WIKI_PATH)
 
     isOperating = false;
     bus.emit('unlocked');

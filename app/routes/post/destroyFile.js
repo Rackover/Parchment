@@ -12,7 +12,7 @@ module.exports = async function(req){
 
     else{
         const pathWithoutContent = body.path.substring(WIKI_CONTENTS_DIRECTORY_NAME.length+1, body.path.length)
-        const endPath = require("path").join(EXECUTION_ROOT, WIKI_PATH, WIKI_CONTENTS_DIRECTORY_NAME, pathWithoutContent)
+        const endPath = require("path").join(WIKI_PATH, WIKI_CONTENTS_DIRECTORY_NAME, pathWithoutContent)
         utility.rimraf(endPath)
 
         const url = pathWithoutContent.substring(0, pathWithoutContent.lastIndexOf('/'))

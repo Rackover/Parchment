@@ -110,7 +110,7 @@ module.exports = function(port){
       res.json(wikiContents.getEntries(decodeURI(req.path)))
     }
     else{
-	    res.sendFile(path.join(global.EXECUTION_ROOT, WIKI_PATH, decodeURI(req.path)))
+	    res.sendFile(path.join(WIKI_PATH, decodeURI(req.path)))
     }
   })
 

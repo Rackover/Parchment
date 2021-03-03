@@ -11,7 +11,7 @@ module.exports = {
 }
 
 function loadColor(){
-    const meta = require(path.join(EXECUTION_ROOT, WIKI_PATH, "meta.json"));
+    const meta = require(path.join(WIKI_PATH, "meta.json"));
     let baseColor = color(meta.color)
     
     scheme = {

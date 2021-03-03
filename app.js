@@ -79,7 +79,7 @@ global.APPLICATION_ROOT = path.resolve(__dirname);
 process.env = require("./app/env.js")(argv);
 global.WIKI_PATH = process.env.WIKI_PATH
 
-const meta = require(path.join(EXECUTION_ROOT, WIKI_PATH, "meta.json"));
+const meta = require(path.join(WIKI_PATH, "meta.json"));
 
 global.WIKI_NAME = argv.name || meta.name || process.env.GIT_REPO_URL.split("/").pop().replace(".git", "").toUpperCase()
 global.WIKI_CONTENTS_DIRECTORY_NAME = "_contents";
