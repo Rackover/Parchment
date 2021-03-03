@@ -99,6 +99,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
     keys["Ctrl-S"] = () => { 
         saveFunction(simplemde, false)
     };
+
+    // Autosave
+    setTimeout(()=>{saveFunction(simplemde, false);}, 1000 * 60 * 5);
+
     // update shortcuts list
     codemirror.setOption("extraKeys", keys);
 
