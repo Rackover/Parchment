@@ -275,9 +275,21 @@ body{
 }
 
 .content pre code{
+  color:inherit;
+  background-color: inherit;
+  border-radius:inherit;
+}
+
+.cm-comment{
+  font-family: monospace;
+}
+
+.content pre:not(.hljs) code{
   color: #AA0000;
   padding:15px;
   display:block;
+  background-color: #FFE6E68C;
+  border-radius:4px;
 }
 
 .content table td, .content table tr, .content table th{
