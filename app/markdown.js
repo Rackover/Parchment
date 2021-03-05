@@ -7,7 +7,8 @@ const cheerio = require('cheerio')
 const mdContainer = require('markdown-it-container');
 const mdAnchor = require('markdown-it-anchor');
 const mdTable = require('markdown-it-multimd-table');
-const mdColor = require('markdown-it-color');
+const mdColor = require('markdown-it-color').colorPlugin;
+
 
 const _ = require('lodash')
 const mdRemove = require('remove-markdown')
