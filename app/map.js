@@ -45,12 +45,14 @@ async function scanDirectory(dirPath){
             url: virtualPath,
             filePath: fullPath,
             cleanName: cleanName,
-            repoPath: path.join(
+            repoPath: 
+            // DO NOT use path.join() here! Will strip the second slash from http://
                 process.env.GIT_REPO_URL
                     .replace(":", "/")
                     .replace("git@", "https://")
-                    .replace(".git", "/blob/"+process.env.GIT_REPO_BRANCH), 
-                virtualPath),
+                    .replace(".git", "/blob/"+process.env.GIT_REPO_BRANCH)
+                + "/" 
+                + virtualPath,
             name: markdown.parseMeta(contents.toString()).title || name,
             children: fs.existsSync(fullPathNoExt) ? await scanDirectory(fullPathNoExt) : false
         }
