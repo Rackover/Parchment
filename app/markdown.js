@@ -4,9 +4,10 @@ const md = require('markdown-it')
 const hljs = require('highlight.js')
 const cheerio = require('cheerio')
 
-const mdContainer = require('markdown-it-container')
-const mdAnchor = require('markdown-it-anchor')
-const mdTable = require('markdown-it-multimd-table')
+const mdContainer = require('markdown-it-container');
+const mdAnchor = require('markdown-it-anchor');
+const mdTable = require('markdown-it-multimd-table');
+const mdColor = require('markdown-it-color');
 
 const _ = require('lodash')
 const mdRemove = require('remove-markdown')
@@ -47,6 +48,9 @@ var mkdown = md({
   rowspan:    true,
   headerless: true,
 })
+.use(mdColor, {
+  inline: true
+});
   
 for (let k in containers){
   const container = containers[k];
