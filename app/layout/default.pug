@@ -22,6 +22,7 @@ html
     title #{website.name}
     link(rel="stylesheet", href="/res/css/font-awesome-all.css")
     link(rel="stylesheet", href="/res/css/highlight-js.min.css")
+    script(src="/res/js/jquery.min.js")
     block head
     link(rel="stylesheet", href=website.links.css)
     link(rel="icon", type="image/png", href=website.links.favicon)
@@ -48,6 +49,12 @@ html
           label(for="pass") Pass
           input(type="password", name="pass")
           input(type="submit", value="🡆")
+          
+      
+      form.searchBar(method="GET", action="/search")
+        input(type="text", name="term", placeholder="Search...")
+        input(type="submit", value="🔍")
+
       include elements/header.pug
     .mainContainer
       .navigation 

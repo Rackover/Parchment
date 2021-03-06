@@ -1,0 +1,11 @@
+extends ../layout/default.pug
+
+block head
+  script(src="/res/js/loginForm.js")
+
+block content
+  h1 Results for "#{searchTerm}"
+  each result in results
+    h2
+        a(href="/read/"+result.virtualPath) #{result.title}
+    p !{result.summary}

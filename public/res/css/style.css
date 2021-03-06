@@ -57,31 +57,45 @@ body{
   mix-blend-mode: difference;
 }
 
-.header .userBar{
+.header .userBar, .header .searchBar{
   font-style:italic;
   color:LIGHT;
   position:absolute;
   right:20PX;
-  BOTTOM:0;
+  TOP:0;
   margin:6px;
   text-align:right;
 }
 
-.header .userBar input{
+.header .searchBar{
+  top: auto;
+  bottom:0;
+}
+
+.header input{
   width:120px;
   margin-left:10px;
   margin-right:10px;
   background:rgba(0,0,0,0.4);
-  border:1px solid LIGHTEST;
+  border:1px solid DARK;
   color: LIGHT;
   font-family: inherit;
   padding-left:4px;
 }
 
-.header .userBar input[type=submit]{
+.header .searchBar input{
+  width:10vw;
+  border:1px solid LIGHTEST;
+}
+
+.header input[type=submit]{
   padding-left:10px;
   padding-right:10px;
-  width:min-content;
+  width:40px;
+}
+
+.header input[type=submit][name="logout"]{
+  width:6vw;
 }
 
 .header #loginError{

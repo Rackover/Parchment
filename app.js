@@ -92,6 +92,7 @@ global.wikiMap = require("./app/map.js")
 global.wikiPage = require("./app/page.js")
 global.wikiContents = require('./app/content.js')
 global.utility = require("./app/utility.js")
+global.searchEngine = require("./app/search.js");
 
 logger.debug(`Running in directory ${EXECUTION_ROOT} with application root ${APPLICATION_ROOT} and wiki path: ${WIKI_PATH}`)
 logger.debug("Parchment currently running as OS user: "+require('os').userInfo().username)

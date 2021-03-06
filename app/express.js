@@ -39,6 +39,7 @@ module.exports = function(port){
   const routes = [
     {name:"read/*", isProtected: false},
     {name:"write/*", isProtected: true},
+    {name:"search", isProtected: false}
   ]
   
   // All routes

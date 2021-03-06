@@ -22,7 +22,7 @@ async function updateTree(){
     if (isOperating) await new Promise(resolve => bus.once('unlocked', resolve));
     isOperating = true;
 
-    tree = await scanDirectory( WIKI_PATH)
+    tree = await scanDirectory(WIKI_PATH)
 
     isOperating = false;
     bus.emit('unlocked');
@@ -40,6 +40,7 @@ async function scanDirectory(dirPath){
         const fullPath = fullPathNoExt+".md";
         const contents = await readFile(fullPath)
         const virtualPath = fullPath.replace(WIKI_PATH, "");
+        const meta = markdown.parseMeta(contents.toString());
 
         entries[virtualPath] = {
             url: virtualPath,
@@ -53,11 +54,13 @@ async function scanDirectory(dirPath){
                     .replace(".git", "/blob/"+process.env.GIT_REPO_BRANCH)
                 + "/" 
                 + virtualPath,
-            name: markdown.parseMeta(contents.toString()).title || name,
+            name: meta.title || name,
             children: fs.existsSync(fullPathNoExt) ? await scanDirectory(fullPathNoExt) : false
         }
 
         pages[virtualPath] = entries[virtualPath]
+        searchEngine.updateIndexForPageIfNecessary(virtualPath, entries[virtualPath].name, contents.toString());
+
         logger.debug("Added "+cleanName+" to "+virtualPath)
     }
     return entries

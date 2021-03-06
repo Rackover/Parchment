@@ -26,8 +26,9 @@ async function addPage(virtualPath, contents){
     const fileName = elems[elems.length-1]
     logger.info("Adding page "+fileName+"...")
     mkdirp.sync(diskPath.substring(0, diskPath.lastIndexOf('/')))
-
-    await writeFile(diskPath, contents)
+    
+    await writeFile(diskPath, contents);
+    searchEngine.updateIndexForPage(virtualPath, markdown.parseMeta(contents).title, contents);
 
     // This will update tree
     await git.checkAndUploadModifications("Updated "+fileName)
@@ -54,7 +55,9 @@ async function destroyPage(virtualPath){
     const fileName = elems[elems.length-1]
     logger.info("Destroying page "+fileName+"...")
 
-    const mdPath = path.join(EXECUTION_ROOT, diskPath)
+    searchEngine.removePageFromIndex(virtualPath);
+
+    const mdPath =  diskPath;
     const dirPath = mdPath.substring(0, mdPath.length-3);
 
     if (fs.existsSync(dirPath)){
