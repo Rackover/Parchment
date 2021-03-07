@@ -1,6 +1,6 @@
 module.exports = async function (req, response){
     
-    const pagePath = response.navigation.current
+    const pagePath = response.navigation.current;
     const page = wikiMap.getPage(pagePath)
 
     if (!page){

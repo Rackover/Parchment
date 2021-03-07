@@ -44,7 +44,7 @@ module.exports = function(port){
   
   // All routes
   app.get('/', function (req, res) {
-    res.redirect("read/home.md");
+    res.redirect("read/home");
   })
 
   for (k in routes){
@@ -159,8 +159,13 @@ function getFooterInfo(){
 }
 
 function getNavigationInfo(req){
+  let current =  req.path.replace(req.path.split("/")[1]+"/", "");
+  if (!current.toLowerCase().endsWith(".md")){
+    current += ".md";
+  }
+
   return {
     arborescence: wikiMap.getTree(),
-    current: req.path.replace(req.path.split("/")[1]+"/", ""),
+    current: current,
   }
 }
