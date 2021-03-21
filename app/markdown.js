@@ -66,6 +66,112 @@ for (let k in containers){
   });
 }
 
+// Download button
+mkdown.use(mdContainer, "download", {  
+  validate: function(params) {
+    return params.trim().match(/^download\s+(.*)$/);
+  },
+
+  render: function (tokens, idx) {
+    const m = tokens[idx].info.trim().match(/^download\s+(.*)$/);
+
+    if (m == null){
+      return "";
+    }
+
+    const contents = m[1];
+    const elements = contents.split(" ");
+    elements.pop();
+    const url = elements.join(" ");
+
+    const fileInfo = wikiContents.fileInfo(url);
+    const ext = fileInfo === false ? null : require('path').extname(url).toLowerCase().substring(1);
+
+
+    let logoClass = "fas fa-file-download";
+    let image = "";
+
+    const archiveExts = ["zip", "tar", "gz", "pak", "7z"];
+    const executableExts = ["exe"];
+    
+
+    if (archiveExts.includes(ext)){
+      logoClass = "fas fa-file-archive";
+    }
+    else if (executableExts.includes(ext)){
+
+      const fs = require('fs');
+      const path = require('path');
+
+      let icon64;
+      let filePath = path.join(WIKI_PATH, url.replace(/\%20/g, " "));
+      let iconPath = filePath.substring(0, filePath.length-ext.length)+".png";
+      if (fs.existsSync(iconPath)){
+        iconPath = url.substring(0, url.length-ext.length)+".png";
+      }
+      else{
+        iconPath = false;
+      }
+
+      // Unused
+      if (icon64){
+        image = `<img src="data:image/png;base64, ${icon64}" alt="X" />`;
+      }
+
+      // Icon with same name as exe + PNG
+      else if (iconPath){
+        image = `<img src="${iconPath}" alt="X" />`;
+      }
+
+      // Just regular file icon
+      else{
+        logoClass = "fas fa-file-medical-alt";
+      }
+    }
+    else if (fileInfo === false){
+      logoClass = "fas fa-question";
+    }
+
+    if (fileInfo === false){
+      return `
+          <blockquote class="download missing">
+            <div class="preview ${logoClass}"></div>
+            <div>
+              <p class="title">${require('path').basename(url)}</p>
+              <p>Missing file</p>
+            </div>
+          </blockquote>\n`;
+    }
+    else{
+      return `
+        <a href="${url}" style="text-decoration:none">
+          <blockquote class="download">
+            <div class="preview ${image.length==0 ? logoClass : ""}">${image}</div>
+            <div>
+              <p class="title">${fileInfo.name}</p>
+              <p>${Math.round(fileInfo.size)} kB</p>
+              <p>${fileInfo.lastModified}</p>
+            </div>
+          </blockquote>
+        </a>\n`;
+    }
+
+    /*
+
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return `<blockquote class="download"><p class="title">${url}</p>\n`;
+
+    } else {
+      // closing tag
+      return '</blockquote>\n';
+    }
+
+    */
+  }
+});
+
+
 // Video rules
 
 const videoRules = [

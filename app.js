@@ -4,7 +4,7 @@
 require("yargonaut")
   .helpStyle('green')
 
-global.VERSION = `LouveSystems' Parchment v1.0`;
+global.VERSION = `LouveSystems' Parchment v1.1`;
 
 const path = require('path');
 const yargs = require('yargs');

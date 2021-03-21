@@ -292,6 +292,7 @@ body{
   color:inherit;
   background-color: inherit;
   border-radius:inherit;
+  line-height:1.5em;
 }
 
 .cm-comment{
@@ -548,6 +549,57 @@ blockquote.warning{
 
 blockquote.danger{
   background-color: #FFAAAA;
+}
+
+blockquote.download{
+  background-color:LIGHT_GREY;
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  text-decoration:none;
+  width:max-content;
+  color: LIGHT;
+}
+
+blockquote.download.missing {
+  color: DARK_GREY;
+}
+
+blockquote.download:not(.missing):hover{
+  background-color:LIGHT;
+  color:DARK;
+}
+
+blockquote.download:not(.missing):hover p{
+  color:DARK;
+}
+
+blockquote.download .preview{
+  height:70px;
+  width:70px;
+  font-size:64px;
+  margin:4px;
+}
+
+blockquote.download p{
+  margin:0;
+}
+
+blockquote.download.missing .title{
+  color: red;
+}
+
+blockquote.download .title{
+  color: DARK;
+}
+
+blockquote.download p{
+  color: LIGHT;
+}
+
+blockquote.download .preview img{
+  width:100%;
+  height:100%;
 }
 
 .toc {

@@ -16,7 +16,9 @@ module.exports = function(){
         get themeLinks(){
             return themeLinks
         },
-        getEntries: getEntries
+        getEntries: getEntries,
+        fileExists: fileExists,
+        fileInfo: fileInfo
     }
 }()
 
@@ -77,4 +79,24 @@ function getEntries(directory=""){
     }
 
     return entries
+}
+
+function fileExists(virtualPath){
+    return fs.existsSync(path.join(WIKI_PATH, virtualPath.replace(/\%20/g, " ")));
+}
+
+function fileInfo(virtualPath){
+    if (!fileExists(virtualPath)){
+        return false;
+    }
+
+    const hardPath = path.join(WIKI_PATH, virtualPath.replace(/\%20/g, " "));
+
+    const stats = fs.statSync(hardPath);
+
+    return {
+        name: path.basename(hardPath),
+        size: stats.size/1024,
+        lastModified: stats.mtime
+    }
 }
