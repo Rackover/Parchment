@@ -87,11 +87,31 @@ async function pull(){
   isOperating = true;
 
   let error = false;
-  await gitClient.pull("origin", process.env.GIT_REPO_BRANCH)
-  .catch((e) =>{
-    logger.warn("Could NOT pull from the git repository as branch "+process.env.GIT_REPO_BRANCH+".\n"+e.stderr)
+
+  await gitClient.exec("fetch")
+  .catch((e) => {
+    logger.warn("Could NOT fetch from the git repository!\n"+e.stderr)
     error = true;
   });
+
+  if (!error)
+  {
+    await gitClient.checkout(process.env.GIT_REPO_BRANCH)
+    .catch((e) => {
+      logger.warn("Could NOT checkout branch "+process.env.GIT_REPO_BRANCH+" from the git repository!\n"+e.stderr)
+      error = true;
+    })
+  }
+  
+  if (!error)
+  {
+    await gitClient.pull("origin", process.env.GIT_REPO_BRANCH)
+    .catch((e) =>{
+      logger.warn("Could NOT pull from the git repository as branch "+process.env.GIT_REPO_BRANCH+".\n"+e.stderr)
+      error = true;
+    });
+  }
+
   isOperating = false;
   if (!error) logger.info("Done!")
 }
@@ -117,21 +137,31 @@ async function checkAndUploadModifications(changesName=null){
     logger.debug("Committing...")
     return gitClient.commit(changesName || ("Update at "+new Date().toString()))
   })
+  .catch((e) =>{
+    logger.error(`Error while committing data! ${e.stderr}`)
+  })
   .then(() => {
     logger.debug("Pulling...")
     return gitClient.pull("origin", process.env.GIT_REPO_BRANCH);
+  })
+  .catch((e) =>{
+    logger.error(`Error while pulling data! ${e.stderr}`)
   })
   .then(() =>{
     logger.debug("Merging...")
     return gitClient.commit("Merge")
   })
-    .catch((e) =>{
-      logger.debug("There was an error during the merge, but this is probably because there is nothing to merge.")
-    })
+  .catch((e) =>{
+    logger.debug("There was an error during the merge, but this is probably because there is nothing to merge.")
+  })
   .then(() => {
     logger.debug("Pushing...")
     return gitClient.push("origin", process.env.GIT_REPO_BRANCH)
+  })
+  .catch((e) =>{
+    logger.error(`Error while pushing data! ${e.stderr}`)
   });
+
   logger.info("Done!")
   
   await wikiMap.updateTree()

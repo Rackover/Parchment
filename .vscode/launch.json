@@ -12,7 +12,9 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\app.js",
-            "args": ["run"]
+            "args": ["run"],
+            "console": "integratedTerminal",
+            "outputCapture": "std"
         }
     ]
 }

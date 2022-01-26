@@ -37,9 +37,9 @@ async function scanDirectory(dirPath){
         if (name[0] === "_" || name[0] === "." || !name.endsWith(".md")) continue;
         const cleanName = name.substring(0, name.length-3);
         const fullPathNoExt = path.join(dirPath, cleanName);
-        const fullPath = fullPathNoExt+".md";
+        const fullPath = (fullPathNoExt+".md");
         const contents = await readFile(fullPath)
-        const virtualPath = fullPath.replace(WIKI_PATH, "");
+        const virtualPath = fullPath.replace(WIKI_PATH, "").replace(new RegExp("\\"+path.sep, "g"), "/");
         const meta = markdown.parseMeta(contents.toString());
 
         entries[virtualPath] = {

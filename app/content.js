@@ -37,7 +37,7 @@ function updateThemeLinks(){
         if (fs.existsSync(dirPath)){
             const files = fs.readdirSync(dirPath)
             if (files.length > 0){
-                themeLinks[v] = path.join(dirPath, files[0]).replace(WIKI_PATH, "")
+                themeLinks[v] = path.join(dirPath, files[0]).replace(WIKI_PATH, "").replace(new RegExp("\\"+path.sep, "g"), "/")
                 logger.debug("Found custom content for "+v+"! ("+files[0]+")")
                 continue
             }

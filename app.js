@@ -84,6 +84,7 @@ global.APPLICATION_ROOT = path.resolve(__dirname);
 
 process.env = require("./app/env.js")(argv);
 global.WIKI_PATH = process.env.WIKI_PATH
+global.logger = require("./app/logger.js")
 
 const meta = loadMetafile();
 
@@ -91,9 +92,7 @@ global.WIKI_COLOR = argv.color || meta.color;
 global.WIKI_NAME = argv.name || meta.name || process.env.GIT_REPO_URL.split("/").pop().replace(".git", "").toUpperCase()
 global.WIKI_CONTENTS_DIRECTORY_NAME = "_contents";
 
-global.logger = require("./app/logger.js")
 const gitStarter = require("./app/git.js"); // Will become global.git
-const logger = require("./app/logger.js");
 global.markdown = require("./app/markdown.js")
 global.permissions = require("./app/permissions.js")
 global.wikiMap = require("./app/map.js")
@@ -123,10 +122,11 @@ if (argv._.includes('run')){
     return app(process.env.PORT);
   })
   .then(()=>{
-    logger.info("Parchment ready!")
     try{console.log(require("fs").readFileSync(path.join(APPLICATION_ROOT, "res/ready.txt")).toString())}catch(e){
       logger.warning(`There seem to be a problem with the APPLICATION_ROOT (${APPLICATION_ROOT})`);      
     }
+    
+    logger.info("Parchment ready!")
   });  
 }
 else if (argv._.includes('adduser')){
