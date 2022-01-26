@@ -11,8 +11,7 @@ module.exports = {
 }
 
 function loadColor(){
-    const meta = require(path.join(WIKI_PATH, "meta.json"));
-    let baseColor = color(meta.color)
+    let baseColor = color(WIKI_COLOR)
     
     scheme = {
         lightest: baseColor.whiten(0.5),

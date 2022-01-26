@@ -6,8 +6,10 @@ require("yargonaut")
 
 global.VERSION = `LouveSystems' Parchment v1.1`;
 
+const { existsSync, writeFileSync } = require("fs");
 const path = require('path');
 const yargs = require('yargs');
+
 const argv = yargs
   .command('adduser <login> <clear_password>', 'Adds an user to the wiki',{
   })
@@ -52,6 +54,10 @@ const argv = yargs
       description: 'Path for the application - should stay default at all times',
       type: 'string',
   })
+  .option('color', {
+      description: 'Color for the wiki (#AABBCC format)',
+      type: 'string',
+  })
   .option('name', {
       description: 'Name for the wiki',
       type: 'string',
@@ -60,13 +66,13 @@ const argv = yargs
       description: 'Path for the wiki',
       type: 'string',
   })
-  .usage(`\n==========================\nWelcome to ${global.VERSION}}!\n==========================\n\nUsage: $0 <command> [options]`)
+  .usage(`\n==========================\nWelcome to ${global.VERSION}!\n==========================\n\nUsage: $0 <command> [options]`)
   .example("node app run")
   .help()
   .alias('help', 'h')
   .wrap(yargs.terminalWidth())
   .demandCommand()
-  .epilogue("louve.systems@2020")
+  .epilogue("louve.systems@2022")
   .argv;
   
 /////////////////////////////////
@@ -79,13 +85,15 @@ global.APPLICATION_ROOT = path.resolve(__dirname);
 process.env = require("./app/env.js")(argv);
 global.WIKI_PATH = process.env.WIKI_PATH
 
-const meta = require(path.join(WIKI_PATH, "meta.json"));
+const meta = loadMetafile();
 
+global.WIKI_COLOR = argv.color || meta.color;
 global.WIKI_NAME = argv.name || meta.name || process.env.GIT_REPO_URL.split("/").pop().replace(".git", "").toUpperCase()
 global.WIKI_CONTENTS_DIRECTORY_NAME = "_contents";
 
 global.logger = require("./app/logger.js")
-const gitStarter = require("./app/git.js") // Will become global.git
+const gitStarter = require("./app/git.js"); // Will become global.git
+const logger = require("./app/logger.js");
 global.markdown = require("./app/markdown.js")
 global.permissions = require("./app/permissions.js")
 global.wikiMap = require("./app/map.js")
@@ -140,4 +148,32 @@ else if (argv._.includes('version')){
 else {
   logger.error("Nothing to do.")
   process.exit(0)
+}
+
+function loadMetafile()
+{
+  const defaultMeta = {
+    name: null,
+    color: "#AAAACC"
+  };
+
+  if (existsSync(WIKI_PATH))
+  {
+    const metaPath = path.join(WIKI_PATH, "meta.json");
+
+    if (existsSync(metaPath))
+    {
+      // good !
+      return require(metaPath);
+    }
+    else
+    {
+      // Sample meta.json file
+      writeFileSync(metaPath, JSON.stringify(defaultMeta));
+
+      logger.info(`Created new meta file at ${metaPath}`);
+    }
+  }
+
+  return defaultMeta;
 }

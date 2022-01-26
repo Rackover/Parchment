@@ -25,7 +25,7 @@ async function addPage(virtualPath, contents){
     const elems = virtualPath.split("/")
     const fileName = elems[elems.length-1]
     logger.info("Adding page "+fileName+"...")
-    mkdirp.sync(diskPath.substring(0, diskPath.lastIndexOf('/')))
+    mkdirp.sync(diskPath.substring(0, diskPath.lastIndexOf(path.sep)))
     
     await writeFile(diskPath, contents);
     searchEngine.updateIndexForPage(virtualPath, markdown.parseMeta(contents).title, contents);

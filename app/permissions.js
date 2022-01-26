@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs')
 const salt = bcrypt.genSaltSync(10)
 const fs = require("fs")
 const mkdirp = require("mkdirp")
+const path = require('path');
 
 let permissions = {}
 const PERMISSION_FILE = process.env.PERMISSION_FILE
@@ -79,11 +80,15 @@ function loadPermissions(){
 }
 
 function writePermissions(){
-    mkdirp.sync(PERMISSION_FILE.substring(0, PERMISSION_FILE.lastIndexOf('/')))
+
+    const permFolderPath = PERMISSION_FILE.substring(0, PERMISSION_FILE.lastIndexOf(path.sep))
+    mkdirp.sync(permFolderPath)
     let strPerm = ""
+
     for(k in permissions){
         strPerm += permissions[k].b64login+":"+permissions[k].hash+": ("+k+")\n"
     }
+
     // Copy before writing
     if (fs.existsSync(PERMISSION_FILE)){
         fs.copyFileSync(PERMISSION_FILE, PERMISSION_FILE+backupName)
