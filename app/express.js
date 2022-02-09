@@ -62,43 +62,12 @@ module.exports = function(port){
 
       // OK 200
       else{
-        
-        if (cleanName == "download"){
-          res.render("read", await require('./routes/read.js')
-            (
-              req,
-              getPageInfo(req)
-            ),
-            function(err, html)
-            {
-              if (err){
-                res.status(500).send(err.message);
-              }
-              else{
-                const pdf = require('html-pdf');
-                const dynPdf = pdf.create(html, {"base": "./public/"})
-                
-                dynPdf.toStream(function(err, stream){
-                  if (err){
-                    res.status(500).send(err.message);
-                  }
-                  else{
-                    stream.on('end', () => res.end());
-                    stream.pipe(res);
-                  }
-                })
-              }
-            }
+        res.render(cleanName, await require('./routes/'+cleanName+'.js')
+          (
+            req,
+            getPageInfo(req)
           )
-        }
-        else{
-          res.render(cleanName, await require('./routes/'+cleanName+'.js')
-            (
-              req,
-              getPageInfo(req)
-            )
-          )
-        }
+        )
       }
     })
     logger.debug('Registered '+(isProtected?"protected ":"")+'route '+route);

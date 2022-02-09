@@ -1,0 +1,9 @@
+.header,
+.navigation,
+.footer,
+.toc,
+.pageToolbar,
+.fa
+{
+	display: none !important;
+}
