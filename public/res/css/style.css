@@ -65,11 +65,13 @@ body{
   TOP:0;
   margin:6px;
   text-align:right;
+  z-index: 1;
 }
 
 .header .searchBar{
   top: auto;
   bottom:0;
+  z-index: 1;
 }
 
 .header input{
@@ -92,6 +94,7 @@ body{
   padding-left:10px;
   padding-right:10px;
   width:40px;
+  cursor: pointer;
 }
 
 .header input[type=submit][name="logout"]{
